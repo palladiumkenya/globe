@@ -41,7 +41,7 @@ describe('LocationsService', () => {
     await service.create(county);
     const counties = await service.getAll();
     expect(counties.length).toBeGreaterThan(0);
-    counties.forEach(c => Logger.debug(c));
+    counties.forEach(c => Logger.debug(`${c}`));
   });
 
   afterAll(async () => {

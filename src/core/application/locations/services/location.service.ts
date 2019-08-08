@@ -6,6 +6,7 @@ import { BaseService } from '../../common/base.service';
 
 @Injectable()
 export class LocationService extends BaseService<County> {
+
   constructor(
     @InjectModel('County')
     private readonly countyModel: Model<County>) {

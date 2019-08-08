@@ -4,10 +4,12 @@ import { LocationsController } from './core/application/locations/controllers/lo
 import { LocationService } from './core/application/locations/services/location.service';
 import { LocationsModule } from './core/application/locations/locations.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PracticesController } from './core/application/practices/controllers/practices.controller';
+import { PracticesModule } from './core/application/practices/practices.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/dwapiGlobe', { useNewUrlParser: true }), LocationsModule],
-  controllers: [AppController],
+  imports: [MongooseModule.forRoot('mongodb://localhost/dwapiGlobe', { useNewUrlParser: true }), LocationsModule, PracticesModule],
+  controllers: [AppController, PracticesController],
   providers: [],
 })
 export class AppModule {

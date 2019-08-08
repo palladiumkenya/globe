@@ -4,3 +4,4 @@ export class AgencyCreatedEvent implements IEvent {
   constructor(public readonly id: string) {
   }
 }
+

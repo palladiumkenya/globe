@@ -1,19 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
+import { LocationService } from './core/application/locations/services/location.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { countySchema } from './core/application/locations/schemas/county-schema';
 
 describe('AppController', () => {
+  const url = `mongodb+srv://livetest:maun@cluster0-v6fcj.mongodb.net/dwapiGlobeTest?retryWrites=true&w=majority`;
+  let module: TestingModule;
   let appController: AppController;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
+      imports: [
+        MongooseModule.forRoot(url, { useNewUrlParser: true }),
+        MongooseModule.forFeature([{ name: 'County', schema: countySchema }]),
+      ],
       controllers: [AppController],
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    appController = module.get<AppController>(AppController);
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "dwapi Globe"', () => {
       expect(appController.getAppName()).toBe('dwapi Globe');
     });
   });

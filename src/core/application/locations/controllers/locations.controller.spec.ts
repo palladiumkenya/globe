@@ -13,8 +13,8 @@ describe('Locations Controller', () => {
     controller = module.get<LocationsController>(LocationsController);
   });
 
-  it('should get counties', () => {
-    const counties = controller.getCounties();
+  it('should get counties', async () => {
+    const counties = await controller.getCounties();
     expect(counties.length).toBeGreaterThan(0);
   });
 });

@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { AgencyCreatedEvent } from '../../application/practices/events/agency-created.event';
-import uuidv1 from 'uuid/v1';
+import * as uuid from 'uuid';
 import { AgencyUpdatedEvent } from '../../application/practices/events/agency-updated.event';
 
 export class Agency extends AggregateRoot {
@@ -10,7 +10,8 @@ export class Agency extends AggregateRoot {
 
   constructor(name: string, display: string) {
     super();
-    this.id = uuidv1();
+    const idd = uuid();
+    this.id = uuid();
     this.name = name;
     this.display = display;
     this.apply(new AgencyCreatedEvent(this.id));

@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { countySchema } from '../../../locations/schemas/county-schema';
 import { agencySchema } from '../../schemas/agency-schema';
 import { SaveAgencyCommand } from '../save-agency.command';
-import { uuidv1 } from 'uuid/v1';
+import { v1 } from 'uuid/v1';
 import { CommandBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { SaveAgencyHandler } from './save-agency.handler';

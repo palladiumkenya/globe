@@ -1,4 +1,4 @@
-export interface County {
+export interface CountyDto {
   code: number;
   name: string;
 }

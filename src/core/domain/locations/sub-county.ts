@@ -1,14 +1,7 @@
 import { Ward } from './ward';
+import { County } from './county';
 
-export class SubCounty {
-  id: number;
+export interface SubCounty {
   name: string;
-  countyId: number;
-  wards: Ward[] = [];
-
-  constructor(id: number, name: string, countyId: number) {
-    this.id = id;
-    this.name = name;
-    this.countyId = countyId;
-  }
+  wards: Ward[];
 }

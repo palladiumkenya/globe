@@ -1,6 +1,6 @@
 import { IEvent } from '@nestjs/cqrs';
 
-export class FacilityUpdatedEvent implements IEvent {
+export class SiteUpdatedEvent implements IEvent {
   constructor(public readonly id: string) {
   }
 }

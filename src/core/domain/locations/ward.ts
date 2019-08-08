@@ -1,11 +1,5 @@
-export class Ward {
-  id: number;
-  name: string;
-  subCountyId: number;
+import { SubCounty } from './sub-county';
 
-  constructor(id: number, name: string, subCountyId: number) {
-    this.id = id;
-    this.name = name;
-    this.subCountyId = subCountyId;
-  }
+export interface Ward {
+  name: string;
 }

@@ -11,7 +11,7 @@ export class PracticesController {
   @Post()
   async createOrUpdateAgency(@Body() agency: AgencyDto) {
     return this.commandBus.execute(
-      new SaveAgencyCommand(agency.name, agency.display, agency.id),
+      new SaveAgencyCommand('ss', 'xx', 's'),
     );
   }
 }

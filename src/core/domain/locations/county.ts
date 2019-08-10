@@ -1,10 +1,12 @@
-export class County {
-  code: number;
-  name: string;
+import * as uuid from 'uuid';
 
-  constructor(code: number, name: string) {
-    this.code = code;
-    this.name = name;
+export class County {
+  id: string;
+
+  constructor(
+    public code: number,
+    public name: string) {
+    this.id = uuid();
   }
 
   toString() {

@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
-import { LocationService } from './services/location.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { countySchema } from './schemas/county-schema';
 import { LocationsController } from './controllers/locations.controller';
+import { LocationRepository } from '../../../infrastructure/locations/location.repository';
+import { GetLocationsHandler } from './queries/handlers/get-locations.handler';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'County', schema: countySchema }])],
+  imports: [
+    CqrsModule,
+    MongooseModule.forFeature([{ name: 'County', schema: countySchema }]),
+  ],
   controllers: [LocationsController],
-  providers: [LocationService],
+  providers: [LocationRepository, GetLocationsHandler],
 })
 export class LocationsModule {
 }

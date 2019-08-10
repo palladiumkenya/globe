@@ -1,0 +1,44 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { MongooseModule } from '@nestjs/mongoose';
+import { QueryBus } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
+import { LocationsModule } from '../../locations.module';
+import { GetLocationsQuery } from '../get-locations.query';
+import { GetLocationsHandler } from './get-locations.handler';
+import { CountyDto } from '../../../../domain/locations/dtos/county.dto';
+import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
+import { getTestCounties } from '../../../../../infrastructure/common/test.data';
+import { County } from '../../../../domain/locations/county';
+
+describe('Locations Queries Tests', () => {
+  let module: TestingModule;
+  let queryBus: QueryBus;
+  let testCounties: County[] = [];
+  const dbHelper = new TestDbHelper();
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
+      imports: [
+        MongooseModule.forRoot(dbHelper.url, dbHelper.options),
+        LocationsModule,
+      ],
+    }).compile();
+    testCounties = getTestCounties();
+    await dbHelper.initConnection();
+    await dbHelper.seedDb('counties', testCounties);
+
+    const getLocationsHandler = module.get<GetLocationsHandler>(GetLocationsHandler);
+    queryBus = module.get<QueryBus>(QueryBus);
+    queryBus.bind(getLocationsHandler, GetLocationsQuery.name);
+  });
+  afterAll(async () => {
+    await dbHelper.clearDb();
+    await dbHelper.closeConnection();
+  });
+  it('should get All Counties', async () => {
+    const query = new GetLocationsQuery();
+    const result = await queryBus.execute<GetLocationsQuery, CountyDto[]>(query);
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach(c => Logger.debug(`${c}`));
+  });
+});

@@ -1,22 +1,36 @@
 import { SaveAgencyCommand } from '../save-agency.command';
-import { CommandHandler, EventBus, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Agency } from '../../../../domain/practices/agency';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+import { AgencyRepository } from '../../../../../infrastructure/practices/agency.repository';
+import { plainToClass } from 'class-transformer';
 
 @CommandHandler(SaveAgencyCommand)
 export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
   constructor(
-    @InjectModel('Agency')
-    private readonly model: Model<Agency>,
+    private readonly agencyRepository: AgencyRepository,
     private readonly publisher: EventPublisher) {
   }
 
   async execute(command: SaveAgencyCommand): Promise<any> {
+
+    if (command.id) {
+      return await this.updateAgency(command);
+    }
+
     const newAgency = new Agency(command.name, command.display);
-    const hero = this.publisher.mergeObjectContext(newAgency);
-    const result = this.model(newAgency).save();
-    hero.commit();
-    return result;
+    const agency = await this.agencyRepository.create(newAgency);
+    newAgency.commit();
+    return agency;
+  }
+
+  async updateAgency(command: SaveAgencyCommand): Promise<any> {
+    const raw = await this.agencyRepository.get(command.id);
+    if (raw) {
+      const agencyToUpdate = plainToClass(Agency, raw);
+      agencyToUpdate.changeDetails(command.name, command.display);
+      const agency = await this.agencyRepository.update(agencyToUpdate);
+      agencyToUpdate.commit();
+      return agency;
+    }
   }
 }

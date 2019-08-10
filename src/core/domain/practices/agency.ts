@@ -4,6 +4,7 @@ import * as uuid from 'uuid';
 import { AgencyUpdatedEvent } from '../../application/practices/events/agency-updated.event';
 
 export class Agency extends AggregateRoot {
+
   id: string;
   name: string;
   display: string;
@@ -21,5 +22,9 @@ export class Agency extends AggregateRoot {
     this.name = name;
     this.display = display;
     this.apply(new AgencyUpdatedEvent(this.id));
+  }
+
+  toString() {
+    return `${this.display}`;
   }
 }

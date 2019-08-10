@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
-import { LocationService } from './core/application/locations/services/location.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { countySchema } from './core/application/locations/schemas/county-schema';
 
@@ -13,7 +12,6 @@ describe('AppController', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(url, { useNewUrlParser: true }),
-        MongooseModule.forFeature([{ name: 'County', schema: countySchema }]),
       ],
       controllers: [AppController],
     }).compile();

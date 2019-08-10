@@ -2,36 +2,61 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PracticesController } from './practices.controller';
 import { PracticesModule } from '../practices.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommandBus, CqrsModule } from '@nestjs/cqrs';
+import { CommandBus, CqrsModule, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { GetLocationsHandler } from '../../locations/queries/handlers/get-locations.handler';
+import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
+import { SaveAgencyHandler } from '../commands/handlers/save-agency.handler';
+import { SaveAgencyCommand } from '../commands/save-agency.command';
+import { CountyDto } from '../../../domain/locations/dtos/county.dto';
+import { TestDbHelper } from '../../../../infrastructure/common/test-db.helper';
+import { Agency } from '../../../domain/practices/agency';
+import { agencySchema } from '../schemas/agency-schema';
+import { getTestAgencies } from '../../../../infrastructure/common/test.data';
+import { GetAgenciesQuery } from '../queries/get-agencies.query';
+import { GetAgenciesHandler } from '../queries/handlers/get-agencies.handler';
 
 describe('Practices Controller', () => {
-  const url = `mongodb+srv://livetest:maun@cluster0-v6fcj.mongodb.net/dwapiGlobeTest?retryWrites=true&w=majority`;
-  jest.setTimeout(10000);
-  let controller: PracticesController;
   let module: TestingModule;
+  let testAgencies: Agency[] = [];
+  const dbHelper = new TestDbHelper();
+  let controller: PracticesController;
+
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
-        CqrsModule,
-        MongooseModule.forRoot(url, { useNewUrlParser: true }),
+        MongooseModule.forRoot(dbHelper.url, dbHelper.options),
+        MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
         PracticesModule,
       ],
     }).compile();
 
-    controller = module.get<PracticesController>(PracticesController);
+    testAgencies = getTestAgencies(5);
+    await dbHelper.initConnection();
+    await dbHelper.seedDb('agencies', testAgencies);
+
+    const saveAgencyHandler = module.get<SaveAgencyHandler>(SaveAgencyHandler);
+    const commandBus = module.get<CommandBus>(CommandBus);
+    commandBus.bind(saveAgencyHandler, SaveAgencyCommand.name);
+
+    const getAgenciesHandler = module.get<GetAgenciesHandler>(GetAgenciesHandler);
+    const queryBus = module.get<QueryBus>(QueryBus);
+    queryBus.bind(getAgenciesHandler, GetAgenciesQuery.name);
+
+    controller = new PracticesController(commandBus, queryBus);
   });
 
-  beforeEach(async () => {
-    controller = module.get<PracticesController>(PracticesController);
-  });
-
-  it('should create new', async () => {
-    const result = await controller.createOrUpdateAgency({
-      name: 'MAUN', display: 'Maun',
-    });
+  it('should create Agency', async () => {
+    const command = new SaveAgencyCommand('Demo', 'Demo');
+    const result = await controller.createOrUpdateAgency(command);
     expect(result).not.toBeNull();
     Logger.debug(result);
+  });
+
+  it('should get All Counties', async () => {
+    const result = await controller.getCounties();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach(c => Logger.debug(`${c}`));
   });
 });

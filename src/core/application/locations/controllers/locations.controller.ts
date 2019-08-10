@@ -1,16 +1,19 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { County } from '../../../domain/locations/county';
-import { LocationService } from '../services/location.service';
+import { Controller, Get } from '@nestjs/common';
+import { IQueryResult, QueryBus } from '@nestjs/cqrs';
 import { CountyDto } from '../../../domain/locations/dtos/county.dto';
+import { GetLocationsQuery } from '../queries/get-locations.query';
 
 @Controller('locations')
 export class LocationsController {
-  constructor(private readonly locationService: LocationService) {
+  constructor(
+    private readonly queryBus: QueryBus,
+  ) {
   }
 
   @Get()
-  async getCounties(): Promise<County[]> {
-    const counties = await this.locationService.getAll();
-    return counties;
+  async getCounties(): Promise<any> {
+    return this.queryBus.execute(
+      new GetLocationsQuery(),
+    );
   }
 }

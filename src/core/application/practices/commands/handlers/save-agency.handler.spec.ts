@@ -1,51 +1,58 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LocationService } from '../../../locations/services/location.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { countySchema } from '../../../locations/schemas/county-schema';
-import { agencySchema } from '../../schemas/agency-schema';
 import { SaveAgencyCommand } from '../save-agency.command';
-import { v1 } from 'uuid/v1';
-import { CqrsModule, CommandBus, EventBus, EventPublisher, EventsHandler, IEventHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { SaveAgencyHandler } from './save-agency.handler';
 import { PracticesModule } from '../../practices.module';
+import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
+import { agencySchema } from '../../schemas/agency-schema';
+import { getTestAgencies } from '../../../../../infrastructure/common/test.data';
 import { Agency } from '../../../../domain/practices/agency';
-import { Model } from 'mongoose';
-import { AgencyCreatedEvent } from '../../events/agency-created.event';
-import { AgencyCreatedEventHandler } from '../../events/handlers/agency-created.handler';
-import { symlink } from 'fs';
-import { Type } from '@nestjs/common';
 
-describe('Save Agency', () => {
-  const url = `mongodb+srv://livetest:maun@cluster0-v6fcj.mongodb.net/dwapiGlobeTest?retryWrites=true&w=majority`;
+describe('Save Agency Command Tests', () => {
   let module: TestingModule;
   let commandBus: CommandBus;
-  jest.setTimeout(10000);
+  let testAgencies: Agency[] = [];
+  const dbHelper = new TestDbHelper();
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(url, { useNewUrlParser: true }),
+        MongooseModule.forRoot(dbHelper.url, dbHelper.options),
+        MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
         PracticesModule,
       ],
     }).compile();
+    testAgencies = getTestAgencies(5);
+    await dbHelper.initConnection();
+    await dbHelper.seedDb('agencies', testAgencies);
 
     const saveAgencyHandler = module.get<SaveAgencyHandler>(SaveAgencyHandler);
 
     commandBus = module.get<CommandBus>(CommandBus);
-    commandBus.bind(saveAgencyHandler, 'SaveAgencyCommand');
+    commandBus.bind(saveAgencyHandler, SaveAgencyCommand.name);
   });
 
-  /*
-    beforeEach(async () => {
+  afterAll(async () => {
+    await dbHelper.clearDb();
+    await dbHelper.closeConnection();
+  });
 
-    });
-  */
-
-  it('should save new Agency', async () => {
+  it('should create Agency', async () => {
     const command = new SaveAgencyCommand('Demo', 'Demo');
     const result = await commandBus.execute(command);
     expect(result).not.toBeNull();
     Logger.debug(result);
   });
+
+  it('should modify Agency', async () => {
+    const command = new SaveAgencyCommand('NewTest', 'NewTest', testAgencies[0].id);
+    const result = await commandBus.execute(command);
+    expect(result.name).toBe('NewTest');
+    expect(result.display).toBe('NewTest');
+    expect(result.id).toBe(testAgencies[0].id);
+    Logger.debug(result);
+  });
+
 });

@@ -1,10 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { LocationsModule } from './core/application/locations/locations.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PracticesModule } from './core/application/practices/practices.module';
+import { SeederModule } from './infrastructure/seeder.module';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
-  imports: [],
+  imports: [
+    CqrsModule,
+    MongooseModule.forRoot('mongodb://192.168.100.3/dwapiGlobe', {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }), LocationsModule, PracticesModule, SeederModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+}

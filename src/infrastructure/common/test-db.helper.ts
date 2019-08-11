@@ -21,8 +21,11 @@ export class TestDbHelper {
     jest.setTimeout(30000);
   }
 
-  async initConnection() {
+  async initConnection(dbname?: string) {
     Logger.debug(`connecting...`);
+    if (dbname) {
+      this.url.replace('dwapiGlobeTest', dbname);
+    }
     await mongoose.connect(this.url, { useNewUrlParser: true });
     Logger.debug(`connected to [${mongoose.connection.host}]`);
   }
@@ -45,7 +48,12 @@ export class TestDbHelper {
         .map(({ name }) => name)
         .map(collection => {
           Logger.debug(`clearing ${collection}`);
-          mongoose.connection.db.collection(collection).drop();
+
+          try {
+            mongoose.connection.db.collection(collection).drop();
+          } catch (e) {
+            Logger.error(e);
+          }
         }),
     );
   }

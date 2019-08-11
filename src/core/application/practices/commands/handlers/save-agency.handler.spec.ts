@@ -15,6 +15,7 @@ describe('Save Agency Command Tests', () => {
   let commandBus: CommandBus;
   let testAgencies: Agency[] = [];
   const dbHelper = new TestDbHelper();
+  let liveAgency: Agency;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -39,6 +40,11 @@ describe('Save Agency Command Tests', () => {
     await dbHelper.closeConnection();
   });
 
+  beforeEach(async () => {
+    liveAgency = new Agency('XXX', 'XXX-ZZX');
+    await dbHelper.seedDb('agencies', [liveAgency]);
+  });
+
   it('should create Agency', async () => {
     const command = new SaveAgencyCommand('Demo', 'Demo');
     const result = await commandBus.execute(command);
@@ -47,11 +53,11 @@ describe('Save Agency Command Tests', () => {
   });
 
   it('should modify Agency', async () => {
-    const command = new SaveAgencyCommand('NewTest', 'NewTest', testAgencies[0].id);
+    const command = new SaveAgencyCommand('NewTest', 'NewTest', liveAgency.id);
     const result = await commandBus.execute(command);
     expect(result.name).toBe('NewTest');
     expect(result.display).toBe('NewTest');
-    expect(result.id).toBe(testAgencies[0].id);
+    expect(result.id).toBe(liveAgency.id);
     Logger.debug(result);
   });
 

@@ -12,7 +12,7 @@ export class PracticesController {
   }
 
   @Get()
-  async getCounties(): Promise<any> {
+  async getAgencies(): Promise<any> {
     return this.queryBus.execute(
       new GetAgenciesQuery(),
     );

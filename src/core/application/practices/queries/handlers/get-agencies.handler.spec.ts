@@ -16,6 +16,7 @@ describe('Get Agency Query Tests', () => {
   let queryBus: QueryBus;
   let testAgencies: Agency[] = [];
   const dbHelper = new TestDbHelper();
+  let liveAgency: Agency;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -39,6 +40,11 @@ describe('Get Agency Query Tests', () => {
   afterAll(async () => {
     await dbHelper.clearDb();
     await dbHelper.closeConnection();
+  });
+
+  beforeEach(async () => {
+    liveAgency = new Agency('XXX', 'XXX-ZZX');
+    await dbHelper.seedDb('agencies', [liveAgency]);
   });
 
   it('should get new Agency', async () => {

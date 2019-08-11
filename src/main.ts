@@ -7,7 +7,7 @@ async function bootstrap() {
   app.enableCors();
   const seeder = app.get(SeederModule);
   await seeder.seedData();
-  await app.listen(3000);
+  await app.listen(3001);
 }
 
 bootstrap();

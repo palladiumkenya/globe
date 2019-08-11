@@ -12,11 +12,12 @@ import { CountyDto } from '../../../domain/locations/dtos/county.dto';
 import { Logger } from '@nestjs/common';
 import { PracticesController } from '../../practices/controllers/practices.controller';
 
-describe('Locations Controller', () => {
+describe('Locations Controller Tests', () => {
   let module: TestingModule;
   let controller: LocationsController;
   let testCounties: County[] = [];
   const dbHelper = new TestDbHelper();
+  let liveCounty: County;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -41,6 +42,8 @@ describe('Locations Controller', () => {
   });
 
   beforeEach(async () => {
+    liveCounty = new County(99, 'CountyX');
+    await dbHelper.seedDb('counties', [liveCounty]);
     controller = module.get<LocationsController>(LocationsController);
   });
 

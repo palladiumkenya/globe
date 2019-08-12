@@ -9,6 +9,9 @@ import { AgencyCreatedEventHandler } from './events/handlers/agency-created.hand
 import { GetAgenciesQuery } from './queries/get-agencies.query';
 import { GetAgenciesHandler } from './queries/handlers/get-agencies.handler';
 import { AgencyRepository } from '../../../infrastructure/practices/agency.repository';
+import { AgencyDeletedEventHandler } from './events/handlers/agency-deleted.handler';
+import { AgencyUpdatedEventHandler } from './events/handlers/agency-updated.handler';
+import { DeleteAgencyHandler } from './commands/handlers/delete-agency.handler';
 
 @Module({
   imports: [
@@ -16,7 +19,9 @@ import { AgencyRepository } from '../../../infrastructure/practices/agency.repos
     MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
   ],
   controllers: [PracticesController],
-  providers: [AgencyRepository, SaveAgencyHandler, AgencyCreatedEventHandler, GetAgenciesHandler],
+  providers: [AgencyRepository, SaveAgencyHandler, DeleteAgencyHandler,
+    AgencyCreatedEventHandler, GetAgenciesHandler,
+    AgencyDeletedEventHandler, AgencyUpdatedEventHandler],
 })
 export class PracticesModule {
 

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AgencyDto } from '../../../domain/practices/dtos/agency.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { SaveAgencyCommand } from '../commands/save-agency.command';
 import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { GetAgenciesQuery } from '../queries/get-agencies.query';
+import { DeleteAgencyCommand } from '../commands/delete-agency.command';
 
 @Controller('practices')
 export class PracticesController {
@@ -12,7 +13,7 @@ export class PracticesController {
   }
 
   @Get()
-  async getCounties(): Promise<any> {
+  async getAgencies(): Promise<any> {
     return this.queryBus.execute(
       new GetAgenciesQuery(),
     );
@@ -22,6 +23,13 @@ export class PracticesController {
   async createOrUpdateAgency(@Body() agency: AgencyDto) {
     return this.commandBus.execute(
       new SaveAgencyCommand(agency.name, agency.display, agency.id),
+    );
+  }
+
+  @Delete(':id')
+  async deleteAgency(@Param('id') id) {
+    return this.commandBus.execute(
+      new DeleteAgencyCommand(id),
     );
   }
 }

@@ -13,6 +13,7 @@ describe('Base Repository Tests', () => {
   let repository: CarRepository;
   const dbHelper = new TestDbHelper();
   let testCars: Car[] = [];
+  let liveCar: Car;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -26,6 +27,11 @@ describe('Base Repository Tests', () => {
     await dbHelper.initConnection();
     await dbHelper.seedDb('cars', testCars);
     repository = module.get<CarRepository>(CarRepository);
+  });
+
+  beforeEach(async () => {
+    liveCar = new Car('XXXX');
+    await dbHelper.seedDb('cars', [liveCar]);
   });
 
   afterAll(async () => {
@@ -51,16 +57,18 @@ describe('Base Repository Tests', () => {
   });
 
   it('should update Entity', async () => {
-    const testCar = testCars[0];
-    testCar.changeName('xyz');
-    const result = await repository.update(testCar);
-    expect(result.name).toBe('xyz');
-    expect(result.id).toBe(testCars[0].id);
-    Logger.debug(result);
+    liveCar.changeName('xyz');
+    const result = await repository.update(liveCar);
+
+    const updated = await repository.getAll({ id: liveCar.id });
+    expect(updated.length).toBe(1);
+    expect(updated[0].name).toBe('xyz');
+    expect(updated[0].id).toBe(liveCar.id);
+    Logger.debug(updated);
   });
 
   it('should get Entity by Id', async () => {
-    const car = await repository.get(testCars[0].id);
+    const car = await repository.get(liveCar.id);
     expect(car).not.toBeNull();
     Logger.debug(car);
   });
@@ -72,20 +80,13 @@ describe('Base Repository Tests', () => {
   });
 
   it('should get Entity by Criteria', async () => {
-
-    const newCars: Car[] = [
-      new Car('Dodge'),
-      new Car('Mazda'),
-    ];
-    await repository.createBatch(newCars);
-
-    const cars = await repository.getAll({ name: 'Mazda' });
+    const cars = await repository.getAll({ name: liveCar.name });
     expect(cars.length).toBeGreaterThan(0);
     cars.forEach(c => Logger.debug(`${c}`));
   });
 
   it('should delete Entity by Id', async () => {
-    const result = await repository.delete(testCars[3].id);
+    const result = await repository.delete(liveCar.id);
     expect(result).toBe(true);
   });
 

@@ -16,12 +16,12 @@ import { getTestAgencies } from '../../../../../test/test.data';
 import { GetAgenciesQuery } from '../queries/get-agencies.query';
 import { GetAgenciesHandler } from '../queries/handlers/get-agencies.handler';
 
-describe('Practices Controller', () => {
+describe('Practices Controller Tests', () => {
   let module: TestingModule;
   let testAgencies: Agency[] = [];
   const dbHelper = new TestDbHelper();
   let controller: PracticesController;
-
+  let liveAgency: Agency;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -47,6 +47,11 @@ describe('Practices Controller', () => {
     controller = new PracticesController(commandBus, queryBus);
   });
 
+  beforeEach(async () => {
+    liveAgency = new Agency('XXX', 'XXX-ZZX');
+    await dbHelper.seedDb('agencies', [liveAgency]);
+  });
+
   it('should create Agency', async () => {
     const command = new SaveAgencyCommand('Demo', 'Demo');
     const result = await controller.createOrUpdateAgency(command);
@@ -54,8 +59,8 @@ describe('Practices Controller', () => {
     Logger.debug(result);
   });
 
-  it('should get All Counties', async () => {
-    const result = await controller.getCounties();
+  it('should get All Agencies', async () => {
+    const result = await controller.getAgencies();
     expect(result.length).toBeGreaterThan(0);
     result.forEach(c => Logger.debug(`${c}`));
   });

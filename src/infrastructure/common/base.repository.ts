@@ -20,7 +20,7 @@ export abstract class BaseRepository<T> implements IRepository<T> {
 
   async update(entity: any): Promise<T> {
     delete entity._id;
-    await this.model.updateOne(entity);
+    await this.model.updateOne({ id: entity.id }, entity);
     return entity;
   }
 

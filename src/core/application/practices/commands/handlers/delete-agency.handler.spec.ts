@@ -1,19 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MongooseModule } from '@nestjs/mongoose';
-import { agencySchema } from '../../schemas/agency-schema';
+import { SaveAgencyCommand } from '../save-agency.command';
+import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
+import { SaveAgencyHandler } from './save-agency.handler';
 import { PracticesModule } from '../../practices.module';
+import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
+import { agencySchema } from '../../schemas/agency-schema';
+import { getTestAgencies } from '../../../../../infrastructure/common/test.data';
 import { Agency } from '../../../../domain/practices/agency';
-import { GetAgenciesQuery } from '../get-agencies.query';
-import { GetAgenciesHandler } from './get-agencies.handler';
-import { AgencyDto } from '../../../../domain/practices/dtos/agency.dto';
-import { TestDbHelper } from '../../../../../../test/test-db.helper';
-import { getTestAgencies } from '../../../../../../test/test.data';
-import { QueryBus } from '@nestjs/cqrs';
+import { DeleteAgencyCommand } from '../delete-agency.command';
+import { DeleteAgencyHandler } from './delete-agency.handler';
 
-describe('Get Agency Query Tests', () => {
+describe('Delete Agency Command Tests', () => {
   let module: TestingModule;
-  let queryBus: QueryBus;
+  let commandBus: CommandBus;
   let testAgencies: Agency[] = [];
   const dbHelper = new TestDbHelper();
   let liveAgency: Agency;
@@ -26,15 +27,14 @@ describe('Get Agency Query Tests', () => {
         PracticesModule,
       ],
     }).compile();
-
     testAgencies = getTestAgencies(5);
     await dbHelper.initConnection();
     await dbHelper.seedDb('agencies', testAgencies);
 
-    const saveAgencyHandler = module.get<GetAgenciesHandler>(GetAgenciesHandler);
+    const deleteHandler = module.get<DeleteAgencyHandler>(DeleteAgencyHandler);
 
-    queryBus = module.get<QueryBus>(QueryBus);
-    queryBus.bind(saveAgencyHandler, GetAgenciesQuery.name);
+    commandBus = module.get<CommandBus>(CommandBus);
+    commandBus.bind(deleteHandler, DeleteAgencyCommand.name);
   });
 
   afterAll(async () => {
@@ -47,10 +47,9 @@ describe('Get Agency Query Tests', () => {
     await dbHelper.seedDb('agencies', [liveAgency]);
   });
 
-  it('should get new Agency', async () => {
-    const query = new GetAgenciesQuery();
-    const result = await queryBus.execute<GetAgenciesQuery, AgencyDto[]>(query);
-    expect(result.length).toBeGreaterThan(0);
-    result.forEach(c => Logger.debug(`${c}`));
+  it('should delete Agency', async () => {
+    const command = new DeleteAgencyCommand(liveAgency.id);
+    const result = await commandBus.execute(command);
+    expect(result).toBe(true);
   });
 });

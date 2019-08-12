@@ -15,6 +15,7 @@ describe('Locations Queries Tests', () => {
   let queryBus: QueryBus;
   let testCounties: County[] = [];
   const dbHelper = new TestDbHelper();
+  let liveCounty: County;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -34,6 +35,11 @@ describe('Locations Queries Tests', () => {
   afterAll(async () => {
     await dbHelper.clearDb();
     await dbHelper.closeConnection();
+  });
+
+  beforeEach(async () => {
+    liveCounty = new County(99, 'CountyX');
+    await dbHelper.seedDb('counties', [liveCounty]);
   });
   it('should get All Counties', async () => {
     const query = new GetLocationsQuery();

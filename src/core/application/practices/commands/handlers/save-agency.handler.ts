@@ -13,7 +13,7 @@ export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
 
   async execute(command: SaveAgencyCommand): Promise<any> {
 
-    if (command.id) {
+    if (command.id && command.id !== '00000000-0000-0000-0000-000000000000') {
       return await this.updateAgency(command);
     }
 

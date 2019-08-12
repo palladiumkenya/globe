@@ -5,9 +5,9 @@ import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
 import { SaveAgencyHandler } from './save-agency.handler';
 import { PracticesModule } from '../../practices.module';
-import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
+import { TestDbHelper } from '../../../../../../test/test-db.helper';
 import { agencySchema } from '../../schemas/agency-schema';
-import { getTestAgencies } from '../../../../../infrastructure/common/test.data';
+import { getTestAgencies } from '../../../../../../test/test.data';
 import { Agency } from '../../../../domain/practices/agency';
 
 describe('Save Agency Command Tests', () => {

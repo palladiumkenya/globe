@@ -6,8 +6,8 @@ import { LocationsModule } from '../../locations.module';
 import { GetLocationsQuery } from '../get-locations.query';
 import { GetLocationsHandler } from './get-locations.handler';
 import { CountyDto } from '../../../../domain/locations/dtos/county.dto';
-import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
-import { getTestCounties } from '../../../../../infrastructure/common/test.data';
+import { TestDbHelper } from '../../../../../../test/test-db.helper';
+import { getTestCounties } from '../../../../../../test/test.data';
 import { County } from '../../../../domain/locations/county';
 
 describe('Locations Queries Tests', () => {

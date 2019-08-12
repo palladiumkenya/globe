@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { SeedReader } from '../common/seed-reader';
 import { LocationSeeder } from './location.seeder';
-import { TestDbHelper } from '../common/test-db.helper';
+import { TestDbHelper } from '../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { countySchema } from '../../core/application/locations/schemas/county-schema';
 import { LocationRepository } from './location.repository';

@@ -1,5 +1,5 @@
-import { Agency } from '../../core/domain/practices/agency';
-import { County } from '../../core/domain/locations/county';
+import { Agency } from '../src/core/domain/practices/agency';
+import { County } from '../src/core/domain/locations/county';
 
 export const getTestCounties = (count = 2) => {
   const cars: County[] = [];

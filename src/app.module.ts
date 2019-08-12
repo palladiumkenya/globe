@@ -9,7 +9,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 @Module({
   imports: [
     CqrsModule,
-    MongooseModule.forRoot('mongodb://192.168.100.3/dwapiGlobe', {
+    MongooseModule.forRoot('mongodb://localhost/dwapiGlobe', {
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true,

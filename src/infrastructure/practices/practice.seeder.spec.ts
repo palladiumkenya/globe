@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SeedReader } from '../common/seed-reader';
 import { PracticeSeeder } from './practice.seeder';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TestDbHelper } from '../common/test-db.helper';
+import { TestDbHelper } from '../../../test/test-db.helper';
 import { AgencyRepository } from './agency.repository';
 import { agencySchema } from '../../core/application/practices/schemas/agency-schema';
 

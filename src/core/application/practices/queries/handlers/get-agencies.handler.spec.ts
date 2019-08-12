@@ -7,8 +7,8 @@ import { Agency } from '../../../../domain/practices/agency';
 import { GetAgenciesQuery } from '../get-agencies.query';
 import { GetAgenciesHandler } from './get-agencies.handler';
 import { AgencyDto } from '../../../../domain/practices/dtos/agency.dto';
-import { TestDbHelper } from '../../../../../infrastructure/common/test-db.helper';
-import { getTestAgencies } from '../../../../../infrastructure/common/test.data';
+import { TestDbHelper } from '../../../../../../test/test-db.helper';
+import { getTestAgencies } from '../../../../../../test/test.data';
 import { QueryBus } from '@nestjs/cqrs';
 
 describe('Get Agency Query Tests', () => {

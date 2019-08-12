@@ -5,7 +5,7 @@ import { InjectModel, MongooseModule } from '@nestjs/mongoose';
 import { IRepository } from '../../core/application/common/repository.interface';
 import { BaseRepository } from './base.repository';
 import { Model } from 'mongoose';
-import { TestDbHelper } from './test-db.helper';
+import { TestDbHelper } from '../../../test/test-db.helper';
 import * as uuid from 'uuid';
 
 describe('Base Repository Tests', () => {

@@ -9,10 +9,10 @@ import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { SaveAgencyHandler } from '../commands/handlers/save-agency.handler';
 import { SaveAgencyCommand } from '../commands/save-agency.command';
 import { CountyDto } from '../../../domain/locations/dtos/county.dto';
-import { TestDbHelper } from '../../../../infrastructure/common/test-db.helper';
+import { TestDbHelper } from '../../../../../test/test-db.helper';
 import { Agency } from '../../../domain/practices/agency';
 import { agencySchema } from '../schemas/agency-schema';
-import { getTestAgencies } from '../../../../infrastructure/common/test.data';
+import { getTestAgencies } from '../../../../../test/test.data';
 import { GetAgenciesQuery } from '../queries/get-agencies.query';
 import { GetAgenciesHandler } from '../queries/handlers/get-agencies.handler';
 

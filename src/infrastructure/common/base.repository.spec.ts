@@ -59,9 +59,12 @@ describe('Base Repository Tests', () => {
   it('should update Entity', async () => {
     liveCar.changeName('xyz');
     const result = await repository.update(liveCar);
-    expect(result.name).toBe('xyz');
-    expect(result.id).toBe(liveCar.id);
-    Logger.debug(result);
+
+    const updated = await repository.getAll({ id: liveCar.id });
+    expect(updated.length).toBe(1);
+    expect(updated[0].name).toBe('xyz');
+    expect(updated[0].id).toBe(liveCar.id);
+    Logger.debug(updated);
   });
 
   it('should get Entity by Id', async () => {

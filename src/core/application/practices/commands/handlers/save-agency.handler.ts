@@ -19,7 +19,7 @@ export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
 
     const newAgency = new Agency(command.name, command.display);
     const agency = await this.agencyRepository.create(newAgency);
-    newAgency.commit();
+    this.publisher.mergeObjectContext(newAgency).commit();
     return agency;
   }
 
@@ -29,7 +29,7 @@ export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
       const agencyToUpdate = plainToClass(Agency, raw);
       agencyToUpdate.changeDetails(command.name, command.display);
       const agency = await this.agencyRepository.update(agencyToUpdate);
-      agencyToUpdate.commit();
+      this.publisher.mergeObjectContext(agencyToUpdate).commit();
       return agency;
     }
   }

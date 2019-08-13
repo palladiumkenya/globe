@@ -1,10 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SeedReader } from '../common/seed-reader';
+import { SeedReader } from './seed-reader';
 import { deserializeArray } from 'class-transformer';
-import { AgencyRepository } from './agency.repository';
+import { AgencyRepository } from '../practices/agency.repository';
 import { Agency } from '../../domain/practices/agency';
-import { MechanismRepository } from './mechanism.repository';
-import { FacilityRepository } from './facility.repository';
+import { MechanismRepository } from '../practices/mechanism.repository';
+import { FacilityRepository } from '../practices/facility.repository';
+import { Mechanism } from '../../domain/practices/mechanism';
+import { Facility } from '../../domain/practices/facility';
 
 @Injectable()
 export class PracticeSeeder {
@@ -16,21 +18,21 @@ export class PracticeSeeder {
   }
 
   async loadAgencies(): Promise<Agency[]> {
-    const seedData = await this.reader.read('agency');
+    const seedData = await this.reader.read(Agency.name.toLowerCase());
     const agencies = deserializeArray(Agency, seedData);
     return agencies;
   }
 
-  async loadFacilities(): Promise<Agency[]> {
-    const seedData = await this.reader.read('agency');
-    const agencies = deserializeArray(Agency, seedData);
-    return agencies;
+  async loadFacilities(): Promise<Facility[]> {
+    const seedData = await this.reader.read(Facility.name.toLowerCase());
+    const facilities = deserializeArray(Facility, seedData);
+    return facilities;
   }
 
-  async loadMechanisms(): Promise<Agency[]> {
-    const seedData = await this.reader.read('agency');
-    const agencies = deserializeArray(Agency, seedData);
-    return agencies;
+  async loadMechanisms(): Promise<Mechanism[]> {
+    const seedData = await this.reader.read(Mechanism.name.toLowerCase());
+    const mechanisms = deserializeArray(Mechanism, seedData);
+    return mechanisms;
   }
 
   async seed(): Promise<number> {
@@ -41,20 +43,20 @@ export class PracticeSeeder {
 
     const ggenciesCount = await this.agencyRepository.getCount();
     if (ggenciesCount === 0) {
-      Logger.log(`Seeding Agencies..`);
+      Logger.log(`Seeding ${Agency.name}(s)...`);
       await this.agencyRepository.createBatch(agencies);
     }
 
     const mechanismsCount = await this.mechanismRepository.getCount();
     if (mechanismsCount === 0) {
-      Logger.log(`Seeding Agencies..`);
-      await this.agencyRepository.createBatch(mechanisms);
+      Logger.log(`Seeding ${Mechanism.name}(s)...`);
+      await this.mechanismRepository.createBatch(mechanisms);
     }
 
     const facilitiesCount = await this.facilityRepository.getCount();
     if (facilitiesCount === 0) {
-      Logger.log(`Seeding Facilities..`);
-      await this.agencyRepository.createBatch(facilities);
+      Logger.log(`Seeding ${Facility.name}(s)..`);
+      await this.facilityRepository.createBatch(facilities);
     }
     return 0;
   }

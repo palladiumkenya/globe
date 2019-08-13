@@ -22,7 +22,6 @@ describe('Get Facility Query Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Facility', schema: facilitySchema }]),
         PracticesModule,
       ],
     }).compile();

@@ -1,24 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AgenciesController } from './agenciesController';
 import { PracticesModule } from '../practices.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommandBus, CqrsModule, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
-import { GetLocationsHandler } from '../../locations/queries/handlers/get-locations.handler';
-import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { SaveMechanismHandler } from '../commands/handlers/save-mechanism.handler';
 import { SaveMechanismCommand } from '../commands/save-mechanism.command';
-import { CountyDto } from '../../../domain/locations/dtos/county.dto';
 import { TestDbHelper } from '../../../../test/test-db.helper';
 import { Mechanism } from '../../../domain/practices/mechanism';
-import { mechanismSchema } from '../../../infrastructure/practices/schemas/mechanism.schema';
 import { getTestMechanisms } from '../../../../test/test.data';
 import { GetMechanismsQuery } from '../queries/get-mechanisms.query';
 import { GetMechanismsHandler } from '../queries/handlers/get-mechanisms.handler';
 import { MechanismDto } from '../../../domain/practices/dtos/mechanism.dto';
 import { MechanismsController } from './mechanisms.controller';
 
-describe('Practices Controller Tests', () => {
+describe('Mechanisms Controller Tests', () => {
   let module: TestingModule;
   let testMechanisms: Mechanism[] = [];
   const dbHelper = new TestDbHelper();
@@ -29,7 +24,6 @@ describe('Practices Controller Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Mechanism', schema: mechanismSchema }]),
         PracticesModule,
       ],
     }).compile();

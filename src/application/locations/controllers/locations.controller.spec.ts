@@ -8,9 +8,7 @@ import { LocationsModule } from '../locations.module';
 import { getTestCounties } from '../../../../test/test.data';
 import { GetLocationsHandler } from '../queries/handlers/get-locations.handler';
 import { GetLocationsQuery } from '../queries/get-locations.query';
-import { CountyDto } from '../../../domain/locations/dtos/county.dto';
 import { Logger } from '@nestjs/common';
-import { AgenciesController } from '../../practices/controllers/agenciesController';
 
 describe('Locations Controller Tests', () => {
   let module: TestingModule;

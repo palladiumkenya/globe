@@ -1,11 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {  Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { SeedReader } from '../common/seed-reader';
 import { PracticeSeeder } from './practice.seeder';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestDbHelper } from '../../../test/test-db.helper';
-import { AgencyRepository } from './agency.repository';
-import { agencySchema } from './schemas/agency.schema';
+import { SeederModule } from './seeder.module';
 
 describe('Practice Seeder Tests', () => {
   let module: TestingModule;
@@ -15,10 +13,9 @@ describe('Practice Seeder Tests', () => {
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
+        SeederModule,
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
       ],
-      providers: [PracticeSeeder, SeedReader, AgencyRepository],
     }).compile();
 
     await dbHelper.initConnection();

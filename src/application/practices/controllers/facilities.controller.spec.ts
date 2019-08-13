@@ -1,16 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FacilitiesController } from './facilities.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommandBus, CqrsModule, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
-import { GetLocationsHandler } from '../../locations/queries/handlers/get-locations.handler';
-import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { SaveFacilityHandler } from '../commands/handlers/save-facility.handler';
 import { SaveFacilityCommand } from '../commands/save-facility.command';
-import { CountyDto } from '../../../domain/locations/dtos/county.dto';
 import { TestDbHelper } from '../../../../test/test-db.helper';
 import { Facility } from '../../../domain/practices/facility';
-import { facilitySchema } from '../../../infrastructure/practices/schemas/facility.schema';
 import { getTestFacilities } from '../../../../test/test.data';
 import { GetFacilitiesQuery } from '../queries/get-facilities.query';
 import { GetFacilitiesHandler } from '../queries/handlers/get-facilities.handler';
@@ -28,7 +24,6 @@ describe('Facilities Controller Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Facility', schema: facilitySchema }]),
         PracticesModule,
       ],
     }).compile();

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MongooseModule } from '@nestjs/mongoose';
-import { agencySchema } from '../../../../infrastructure/practices/schemas/agency.schema';
 import { Logger } from '@nestjs/common';
 import { PracticesModule } from '../../practices.module';
 import { Agency } from '../../../../domain/practices/agency';
@@ -22,7 +21,6 @@ describe('Get Agency Query Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
         PracticesModule,
       ],
     }).compile();

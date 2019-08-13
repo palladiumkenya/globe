@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SeedReader } from '../common/seed-reader';
+import { SeedReader } from './seed-reader';
 import { deserializeArray } from 'class-transformer';
 import { County } from '../../domain/locations/county';
-import { LocationRepository } from './location.repository';
+import { LocationRepository } from '../locations/location.repository';
 
 @Injectable()
 export class LocationSeeder {
@@ -12,7 +12,7 @@ export class LocationSeeder {
   }
 
   async load(): Promise<County[]> {
-    const seedData = await this.reader.read('county');
+    const seedData = await this.reader.read(County.name.toLowerCase());
     const counties = deserializeArray(County, seedData);
     return counties;
   }
@@ -21,7 +21,7 @@ export class LocationSeeder {
     const seedData = await this.load();
     const count = await this.locationRepository.getCount();
     if (count === 0) {
-      Logger.log(`Seeding Counties..`);
+      Logger.log(`Seeding ${County.name}(s)...`);
       await this.locationRepository.createBatch(seedData);
       return seedData.length;
     }

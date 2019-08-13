@@ -22,7 +22,6 @@ describe('Get Mechanism Query Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Mechanism', schema: mechanismSchema }]),
         PracticesModule,
       ],
     }).compile();

@@ -6,7 +6,7 @@ import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { GetAgenciesQuery } from '../queries/get-agencies.query';
 import { DeleteAgencyCommand } from '../commands/delete-agency.command';
 
-@Controller('practices')
+@Controller('agencies')
 export class AgenciesController {
   constructor(private readonly commandBus: CommandBus,
               private readonly queryBus: QueryBus) {

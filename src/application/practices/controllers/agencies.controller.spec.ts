@@ -2,16 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AgenciesController } from './agencies.controller';
 import { PracticesModule } from '../practices.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommandBus, CqrsModule, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Logger } from '@nestjs/common';
-import { GetLocationsHandler } from '../../locations/queries/handlers/get-locations.handler';
-import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { SaveAgencyHandler } from '../commands/handlers/save-agency.handler';
 import { SaveAgencyCommand } from '../commands/save-agency.command';
-import { CountyDto } from '../../../domain/locations/dtos/county.dto';
 import { TestDbHelper } from '../../../../test/test-db.helper';
 import { Agency } from '../../../domain/practices/agency';
-import { agencySchema } from '../../../infrastructure/practices/schemas/agency.schema';
 import { getTestAgencies } from '../../../../test/test.data';
 import { GetAgenciesQuery } from '../queries/get-agencies.query';
 import { GetAgenciesHandler } from '../queries/handlers/get-agencies.handler';
@@ -27,7 +23,6 @@ describe('Practices Controller Tests', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: 'Agency', schema: agencySchema }]),
         PracticesModule,
       ],
     }).compile();

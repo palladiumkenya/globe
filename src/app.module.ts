@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { LocationsModule } from './application/locations/locations.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PracticesModule } from './application/practices/practices.module';
-import { SeederModule } from './infrastructure/seeder.module';
+import { SeederModule } from './infrastructure/seeder/seeder.module';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({

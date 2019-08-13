@@ -4,7 +4,7 @@ import { SeedReader } from '../common/seed-reader';
 import { LocationSeeder } from './location.seeder';
 import { TestDbHelper } from '../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { countySchema } from '../../core/application/locations/schemas/county-schema';
+import { countySchema } from './schemas/county.schema';
 import { LocationRepository } from './location.repository';
 
 describe('Location Seeder Tests', () => {
@@ -30,7 +30,7 @@ describe('Location Seeder Tests', () => {
     await dbHelper.closeConnection();
   });
 
-  it('should load County Seed', async () => {
+  it('should loadAgencies County Seed', async () => {
     const seeds = await seeder.load();
     expect(seeds.length).toBeGreaterThan(-1);
     seeds.forEach(s => Logger.debug(`${s.code} ${s} (${s.id})`));

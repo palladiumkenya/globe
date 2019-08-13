@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as mongoose from 'mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { InjectModel, MongooseModule } from '@nestjs/mongoose';
-import { IRepository } from '../../core/application/common/repository.interface';
+import { IRepository } from '../../application/common/repository.interface';
 import { BaseRepository } from './base.repository';
 import { Model } from 'mongoose';
 import { TestDbHelper } from '../../../test/test-db.helper';

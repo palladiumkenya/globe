@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { IRepository } from '../../core/application/common/repository.interface';
+import { IRepository } from '../../application/common/repository.interface';
 
 export abstract class BaseRepository<T> implements IRepository<T> {
 

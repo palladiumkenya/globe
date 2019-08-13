@@ -5,7 +5,7 @@ import { PracticeSeeder } from './practice.seeder';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestDbHelper } from '../../../test/test-db.helper';
 import { AgencyRepository } from './agency.repository';
-import { agencySchema } from '../../core/application/practices/schemas/agency-schema';
+import { agencySchema } from './schemas/agency.schema';
 
 describe('Practice Seeder Tests', () => {
   let module: TestingModule;
@@ -31,12 +31,24 @@ describe('Practice Seeder Tests', () => {
   });
 
   it('should load Agency Seed', async () => {
-    const seeds = await seeder.load();
+    const seeds = await seeder.loadAgencies();
     expect(seeds.length).toBeGreaterThan(0);
     seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
   });
 
-  it('should seed Agency', async () => {
+  it('should load Mechanism Seed', async () => {
+    const seeds = await seeder.loadMechanisms();
+    expect(seeds.length).toBeGreaterThan(0);
+    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
+  });
+
+  it('should load Facility Seed', async () => {
+    const seeds = await seeder.loadAgencies();
+    expect(seeds.length).toBeGreaterThan(0);
+    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
+  });
+
+  it('should seed', async () => {
     const seeds = await seeder.seed();
     expect(seeds).toBeGreaterThan(-1);
     Logger.debug(`Seeded: ${seeds}`);

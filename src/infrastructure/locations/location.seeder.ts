@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SeedReader } from '../common/seed-reader';
 import { deserializeArray } from 'class-transformer';
-import { County } from '../../core/domain/locations/county';
+import { County } from '../../domain/locations/county';
 import { LocationRepository } from './location.repository';
 
 @Injectable()

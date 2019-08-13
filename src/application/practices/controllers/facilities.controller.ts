@@ -22,11 +22,11 @@ export class FacilitiesController {
   @Post()
   async createOrUpdateFacility(@Body() facility: FacilityDto) {
     return this.commandBus.execute(
-      new SaveFacilityCommand(facility.code, facility.name, facility.id),
+      new SaveFacilityCommand(facility.code, facility.name, facility._id),
     );
   }
 
-  @Delete(':id')
+  @Delete(':_id')
   async deleteFacility(@Param('id') id) {
     return this.commandBus.execute(
       new DeleteFacilityCommand(id),

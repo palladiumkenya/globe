@@ -5,6 +5,6 @@ import { Logger } from '@nestjs/common';
 @EventsHandler(FacilityCreatedEvent)
 export class FacilityCreatedEventHandler implements IEventHandler<FacilityCreatedEvent> {
   handle(event: FacilityCreatedEvent): any {
-    Logger.debug(`=== FacilityCreated ===:${event.id}`);
+    Logger.debug(`=== FacilityCreated ===:${event._id}`);
   }
 }

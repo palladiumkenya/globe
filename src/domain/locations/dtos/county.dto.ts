@@ -1,5 +1,5 @@
 export interface CountyDto {
-  id: string;
+  _id: string;
   code: number;
   name: string;
 }

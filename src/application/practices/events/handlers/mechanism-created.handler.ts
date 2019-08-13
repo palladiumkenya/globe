@@ -5,6 +5,6 @@ import { Logger } from '@nestjs/common';
 @EventsHandler(MechanismCreatedEvent)
 export class MechanismCreatedEventHandler implements IEventHandler<MechanismCreatedEvent> {
   handle(event: MechanismCreatedEvent): any {
-    Logger.debug(`=== MechanismCreated ===:${event.id}`);
+    Logger.debug(`=== MechanismCreated ===:${event._id}`);
   }
 }

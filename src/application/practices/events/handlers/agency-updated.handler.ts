@@ -6,6 +6,6 @@ import { AgencyUpdatedEvent } from '../agency-updated.event';
 @EventsHandler(AgencyUpdatedEvent)
 export class AgencyUpdatedEventHandler implements IEventHandler<AgencyUpdatedEvent> {
   handle(event: AgencyUpdatedEvent): any {
-    Logger.debug(`=== AgencyUpdated ===:${event.id}`);
+    Logger.debug(`=== AgencyUpdated ===:${event._id}`);
   }
 }

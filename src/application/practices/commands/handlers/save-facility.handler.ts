@@ -13,7 +13,7 @@ export class SaveFacilityHandler implements ICommandHandler<SaveFacilityCommand>
 
   async execute(command: SaveFacilityCommand): Promise<any> {
 
-    if (command.id && command.id !== '00000000-0000-0000-0000-000000000000') {
+    if (command._id && command._id !== '00000000-0000-0000-0000-000000000000') {
       return await this.updateFacility(command);
     }
 
@@ -28,7 +28,7 @@ export class SaveFacilityHandler implements ICommandHandler<SaveFacilityCommand>
   }
 
   async updateFacility(command: SaveFacilityCommand): Promise<any> {
-    const raw = await this.facilityRepository.get(command.id);
+    const raw = await this.facilityRepository.get(command._id);
     if (raw) {
       const facilityToUpdate = plainToClass(Facility, raw);
       facilityToUpdate.changeDetails(command.code, command.name);

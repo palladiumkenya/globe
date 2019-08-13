@@ -30,19 +30,19 @@ describe('Practice Seeder Tests', () => {
   it('should load Agency Seed', async () => {
     const seeds = await seeder.loadAgencies();
     expect(seeds.length).toBeGreaterThan(0);
-    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
+    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s._id})`));
   });
 
   it('should load Mechanism Seed', async () => {
     const seeds = await seeder.loadMechanisms();
     expect(seeds.length).toBeGreaterThan(0);
-    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
+    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s._id})`));
   });
 
   it('should load Facility Seed', async () => {
     const seeds = await seeder.loadAgencies();
     expect(seeds.length).toBeGreaterThan(0);
-    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s.id})`));
+    seeds.forEach(s => Logger.debug(`${s.name} ${s} (${s._id})`));
   });
 
   it('should seed', async () => {

@@ -6,6 +6,6 @@ import { FacilityUpdatedEvent } from '../facility-updated.event';
 @EventsHandler(FacilityUpdatedEvent)
 export class FacilityUpdatedEventHandler implements IEventHandler<FacilityUpdatedEvent> {
   handle(event: FacilityUpdatedEvent): any {
-    Logger.debug(`=== FacilityUpdated ===:${event.id}`);
+    Logger.debug(`=== FacilityUpdated ===:${event._id}`);
   }
 }

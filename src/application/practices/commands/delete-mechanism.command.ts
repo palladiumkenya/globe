@@ -1,6 +1,6 @@
 export class DeleteMechanismCommand {
   constructor(
-    public readonly id: string,
+    public readonly _id: string,
   ) {
   }
 }

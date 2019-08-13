@@ -45,7 +45,7 @@ describe('Save Agency Command Tests', () => {
     await dbHelper.seedDb('agencies', [liveAgency]);
   });
 
-  it('should create Agency', async () => {
+  it( 'should create Agency', async () => {
     const command = new SaveAgencyCommand('Demo', 'Demo');
     const result = await commandBus.execute(command);
     expect(result).not.toBeNull();
@@ -53,11 +53,11 @@ describe('Save Agency Command Tests', () => {
   });
 
   it('should modify Agency', async () => {
-    const command = new SaveAgencyCommand('NewTest', 'NewTest', liveAgency.id);
+    const command = new SaveAgencyCommand('NewTest', 'NewTest', liveAgency._id);
     const result = await commandBus.execute(command);
     expect(result.name).toBe('NewTest');
     expect(result.display).toBe('NewTest');
-    expect(result.id).toBe(liveAgency.id);
+    expect(result._id).toBe(liveAgency._id);
     Logger.debug(result);
   });
 

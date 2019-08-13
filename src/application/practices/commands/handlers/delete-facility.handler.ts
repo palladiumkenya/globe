@@ -11,9 +11,9 @@ export class DeleteFacilityHandler implements ICommandHandler<DeleteFacilityComm
   }
 
   async execute(command: DeleteFacilityCommand): Promise<boolean> {
-    const result = await this.facilityRepository.delete(command.id);
+    const result = await this.facilityRepository.delete(command._id);
     if (result) {
-      this.eventBus.publish(new FacilityDeletedEvent(command.id));
+      this.eventBus.publish(new FacilityDeletedEvent(command._id));
       return true;
     }
     return false;

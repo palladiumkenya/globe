@@ -6,6 +6,6 @@ import { FacilityDeletedEvent } from '../facility-deleted.event';
 @EventsHandler(FacilityDeletedEvent)
 export class FacilityDeletedEventHandler implements IEventHandler<FacilityDeletedEvent> {
   handle(event: FacilityDeletedEvent): any {
-    Logger.debug(`=== FacilityDeleted ===:${event.id}`);
+    Logger.debug(`=== FacilityDeleted ===:${event._id}`);
   }
 }

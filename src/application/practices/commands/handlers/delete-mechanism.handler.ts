@@ -14,9 +14,9 @@ export class DeleteMechanismHandler implements ICommandHandler<DeleteMechanismCo
   }
 
   async execute(command: DeleteMechanismCommand): Promise<boolean> {
-    const result = await this.mechanismRepository.delete(command.id);
+    const result = await this.mechanismRepository.delete(command._id);
     if (result) {
-      this.eventBus.publish(new MechanismDeletedEvent(command.id));
+      this.eventBus.publish(new MechanismDeletedEvent(command._id));
       return true;
     }
     return false;

@@ -6,6 +6,6 @@ import { MechanismUpdatedEvent } from '../mechanism-updated.event';
 @EventsHandler(MechanismUpdatedEvent)
 export class MechanismUpdatedEventHandler implements IEventHandler<MechanismUpdatedEvent> {
   handle(event: MechanismUpdatedEvent): any {
-    Logger.debug(`=== MechanismUpdated ===:${event.id}`);
+    Logger.debug(`=== MechanismUpdated ===:${event._id}`);
   }
 }

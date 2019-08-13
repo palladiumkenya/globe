@@ -22,11 +22,11 @@ export class MechanismsController {
   @Post()
   async createOrUpdateMechanism(@Body() mechanism: MechanismDto) {
     return this.commandBus.execute(
-      new SaveMechanismCommand(mechanism.code, mechanism.name, mechanism.implementationName, mechanism.id),
+      new SaveMechanismCommand(mechanism.code, mechanism.name, mechanism.implementationName, mechanism._id),
     );
   }
 
-  @Delete(':id')
+  @Delete(':_id')
   async deleteMechanism(@Param('id') id) {
     return this.commandBus.execute(
       new DeleteMechanismCommand(id),

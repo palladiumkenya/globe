@@ -13,7 +13,7 @@ export class SaveMechanismHandler implements ICommandHandler<SaveMechanismComman
 
   async execute(command: SaveMechanismCommand): Promise<any> {
 
-    if (command.id && command.id !== '00000000-0000-0000-0000-000000000000') {
+    if (command._id && command._id !== '00000000-0000-0000-0000-000000000000') {
       return await this.updateMechanism(command);
     }
 
@@ -28,7 +28,7 @@ export class SaveMechanismHandler implements ICommandHandler<SaveMechanismComman
   }
 
   async updateMechanism(command: SaveMechanismCommand): Promise<any> {
-    const raw = await this.mechanismRepository.get(command.id);
+    const raw = await this.mechanismRepository.get(command._id);
     if (raw) {
       const mechanismToUpdate = plainToClass(Mechanism, raw);
       mechanismToUpdate.changeDetails(command.code, command.name, command.implementationName);

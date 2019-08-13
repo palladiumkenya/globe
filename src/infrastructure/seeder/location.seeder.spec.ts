@@ -31,6 +31,6 @@ describe('Location Seeder Tests', () => {
   it('should load County Seed', async () => {
     const seeds = await seeder.load();
     expect(seeds.length).toBeGreaterThan(-1);
-    seeds.forEach(s => Logger.debug(`${s.code} ${s} (${s.id})`));
+    seeds.forEach(s => Logger.debug(`${s.code} ${s} (${s._id})`));
   });
 });

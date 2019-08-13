@@ -3,9 +3,9 @@ import { mechanismSchema } from './mechanism.schema';
 import { countySchema } from '../../locations/schemas/county.schema';
 
 export const facilitySchema = new mongoose.Schema({
-  id: { type: [String], index: true },
+  _id: String,
   code: Number,
-  name: {type: [String], index: true},
+  name: String,
   county: countySchema,
   mechanism: mechanismSchema,
 });

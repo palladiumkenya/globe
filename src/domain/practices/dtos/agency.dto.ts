@@ -1,5 +1,5 @@
 export interface AgencyDto  {
-  id?: string;
+  _id?: string;
   name?: string;
   display?: string;
 }

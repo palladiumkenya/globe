@@ -22,11 +22,11 @@ export class AgenciesController {
   @Post()
   async createOrUpdateAgency(@Body() agency: AgencyDto) {
     return this.commandBus.execute(
-      new SaveAgencyCommand(agency.name, agency.display, agency.id),
+      new SaveAgencyCommand(agency.name, agency.display, agency._id),
     );
   }
 
-  @Delete(':id')
+  @Delete(':_id')
   async deleteAgency(@Param('id') id) {
     return this.commandBus.execute(
       new DeleteAgencyCommand(id),

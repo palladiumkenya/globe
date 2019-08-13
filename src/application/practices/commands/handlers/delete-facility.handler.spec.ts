@@ -45,7 +45,7 @@ describe('Delete Facility Command Tests', () => {
   });
 
   it('should delete Facility', async () => {
-    const command = new DeleteFacilityCommand(liveFacility.id);
+    const command = new DeleteFacilityCommand(liveFacility._id);
     const result = await commandBus.execute(command);
     expect(result).toBe(true);
   });

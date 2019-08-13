@@ -1,6 +1,6 @@
 export class DeleteFacilityCommand {
   constructor(
-    public readonly id: string,
+    public readonly _id: string,
   ) {
   }
 }

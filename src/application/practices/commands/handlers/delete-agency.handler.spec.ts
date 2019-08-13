@@ -45,7 +45,7 @@ describe('Delete Agency Command Tests', () => {
   });
 
   it('should delete Agency', async () => {
-    const command = new DeleteAgencyCommand(liveAgency.id);
+    const command = new DeleteAgencyCommand(liveAgency._id);
     const result = await commandBus.execute(command);
     expect(result).toBe(true);
   });

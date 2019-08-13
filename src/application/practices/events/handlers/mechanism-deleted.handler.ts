@@ -6,6 +6,6 @@ import { MechanismDeletedEvent } from '../mechanism-deleted.event';
 @EventsHandler(MechanismDeletedEvent)
 export class MechanismDeletedEventHandler implements IEventHandler<MechanismDeletedEvent> {
   handle(event: MechanismDeletedEvent): any {
-    Logger.debug(`=== MechanismDeleted ===:${event.id}`);
+    Logger.debug(`=== MechanismDeleted ===:${event._id}`);
   }
 }

@@ -1,6 +1,6 @@
 export class DeleteAgencyCommand {
   constructor(
-    public readonly id: string,
+    public readonly _id: string,
   ) {
   }
 }

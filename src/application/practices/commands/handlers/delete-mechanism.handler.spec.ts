@@ -45,7 +45,7 @@ describe('Delete Mechanism Command Tests', () => {
   });
 
   it('should delete Mechanism', async () => {
-    const command = new DeleteMechanismCommand(liveMechanism.id);
+    const command = new DeleteMechanismCommand(liveMechanism._id);
     const result = await commandBus.execute(command);
     expect(result).toBe(true);
   });

@@ -42,7 +42,7 @@ describe('Save Facility Command Tests', () => {
 
   beforeEach(async () => {
     liveFacility = new Facility(200, 'FacXXX-ZZX');
-    await dbHelper.seedDb('agencies', [liveFacility]);
+    await dbHelper.seedDb('facilities', [liveFacility]);
   });
 
   it('should create Facility', async () => {
@@ -53,11 +53,10 @@ describe('Save Facility Command Tests', () => {
   });
 
   it('should modify Facility', async () => {
-    const command = new SaveFacilityCommand(400, 'FacTest', liveFacility.id);
+    const command = new SaveFacilityCommand(400, 'FacTest', liveFacility._id);
     const result = await commandBus.execute(command);
-    expect(result.name).toBe('NewTest');
-    expect(result.display).toBe('NewTest');
-    expect(result.id).toBe(liveFacility.id);
+    expect(result.name).toBe('FacTest');
+    expect(result._id).toBe(liveFacility._id);
     Logger.debug(result);
   });
 

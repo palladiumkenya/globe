@@ -8,7 +8,7 @@ import * as uuid from 'uuid';
 
 export class Mechanism extends AggregateRoot {
 
-  id: string;
+  _id: string;
 
   constructor(
     public code: string,
@@ -16,11 +16,11 @@ export class Mechanism extends AggregateRoot {
     public implementationName: string,
     public agency?: Agency) {
     super();
-    this.id = uuid.v1();
+    this._id = uuid.v1();
     this.code = code;
     this.name = name;
     this.implementationName = implementationName;
-    this.apply(new MechanismCreatedEvent(this.id));
+    this.apply(new MechanismCreatedEvent(this._id));
   }
 
   changeDetails(code: string, name: string, implementationName: string, agency?: Agency) {
@@ -28,6 +28,6 @@ export class Mechanism extends AggregateRoot {
     this.name = name;
     this.implementationName = implementationName;
     this.agency = agency;
-    this.apply(new MechanismUpdatedEvent(this.id));
+    this.apply(new MechanismUpdatedEvent(this._id));
   }
 }

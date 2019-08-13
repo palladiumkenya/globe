@@ -13,7 +13,7 @@ export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
 
   async execute(command: SaveAgencyCommand): Promise<any> {
 
-    if (command.id && command.id !== '00000000-0000-0000-0000-000000000000') {
+    if (command._id && command._id !== '00000000-0000-0000-0000-000000000000') {
       return await this.updateAgency(command);
     }
 
@@ -28,7 +28,7 @@ export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
   }
 
   async updateAgency(command: SaveAgencyCommand): Promise<any> {
-    const raw = await this.agencyRepository.get(command.id);
+    const raw = await this.agencyRepository.get(command._id);
     if (raw) {
       const agencyToUpdate = plainToClass(Agency, raw);
       agencyToUpdate.changeDetails(command.name, command.display);

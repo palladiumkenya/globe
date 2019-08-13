@@ -3,7 +3,7 @@ export class SaveMechanismCommand {
     public readonly code: string,
     public readonly name: string,
     public readonly implementationName: string,
-    public readonly id?: string,
+    public readonly _id?: string,
   ) {
   }
 }

@@ -1,5 +1,5 @@
 export interface FacilityDto {
-  id?: string;
+  _id?: string;
   code?: number;
   name?: string;
   countyId?: string;

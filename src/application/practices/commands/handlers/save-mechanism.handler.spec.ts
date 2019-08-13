@@ -27,7 +27,7 @@ describe('Save Mechanism Command Tests', () => {
     }).compile();
     testMechanisms = getTestMechanisms(5);
     await dbHelper.initConnection();
-    await dbHelper.seedDb('agencies', testMechanisms);
+    await dbHelper.seedDb('mechanisms', testMechanisms);
 
     const saveMechanismHandler = module.get<SaveMechanismHandler>(SaveMechanismHandler);
 
@@ -42,7 +42,7 @@ describe('Save Mechanism Command Tests', () => {
 
   beforeEach(async () => {
     liveMechanism = new Mechanism('XXX', 'XXX-ZZX', 'IMP XXX');
-    await dbHelper.seedDb('agencies', [liveMechanism]);
+    await dbHelper.seedDb('mechanisms', [liveMechanism]);
   });
 
   it('should create Mechanism', async () => {
@@ -53,11 +53,12 @@ describe('Save Mechanism Command Tests', () => {
   });
 
   it('should modify Mechanism', async () => {
-    const command = new SaveMechanismCommand('NewTest', 'NewTest', 'New Imp', liveMechanism.id);
+    const command = new SaveMechanismCommand('NewTest', 'NewTest', 'New Imp', liveMechanism._id);
     const result = await commandBus.execute(command);
+    expect(result.code).toBe('NewTest');
     expect(result.name).toBe('NewTest');
-    expect(result.display).toBe('NewTest');
-    expect(result.id).toBe(liveMechanism.id);
+    expect(result.implementationName).toBe('New Imp');
+    expect(result._id).toBe(liveMechanism._id);
     Logger.debug(result);
   });
 

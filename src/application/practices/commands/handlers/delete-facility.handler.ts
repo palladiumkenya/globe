@@ -1,12 +1,14 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
-import { FacilityRepository } from '../../../../infrastructure/practices/facility.repository';
 import { DeleteFacilityCommand } from '../delete-facility.command';
 import { FacilityDeletedEvent } from '../../events/facility-deleted.event';
+import { Inject } from '@nestjs/common';
+import { IFacilityRepository } from '../../../../domain/practices/facility-repository.interface';
 
 @CommandHandler(DeleteFacilityCommand)
 export class DeleteFacilityHandler implements ICommandHandler<DeleteFacilityCommand> {
   constructor(
-    private readonly facilityRepository: FacilityRepository,
+    @Inject('IFacilityRepository')
+    private readonly facilityRepository: IFacilityRepository,
     private readonly eventBus: EventBus) {
   }
 

@@ -3,11 +3,14 @@ import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Facility } from '../../../../domain/practices/facility';
 import { FacilityRepository } from '../../../../infrastructure/practices/facility.repository';
 import { plainToClass } from 'class-transformer';
+import { Inject } from '@nestjs/common';
+import { IFacilityRepository } from '../../../../domain/practices/facility-repository.interface';
 
 @CommandHandler(SaveFacilityCommand)
 export class SaveFacilityHandler implements ICommandHandler<SaveFacilityCommand> {
   constructor(
-    private readonly facilityRepository: FacilityRepository,
+    @Inject('IFacilityRepository')
+    private readonly facilityRepository: IFacilityRepository,
     private readonly publisher: EventPublisher) {
   }
 

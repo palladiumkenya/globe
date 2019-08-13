@@ -11,6 +11,7 @@ import { Mechanism } from '../../domain/practices/mechanism';
 import { Facility } from '../../domain/practices/facility';
 import { mechanismSchema } from '../practices/schemas/mechanism.schema';
 import { facilitySchema } from '../practices/schemas/facility.schema';
+import { LocationRepository } from '../locations/location.repository';
 
 @Module({
   imports: [
@@ -19,9 +20,15 @@ import { facilitySchema } from '../practices/schemas/facility.schema';
     MongooseModule.forFeature([{ name: Facility.name, schema: facilitySchema }]),
   ],
   providers: [
-    AgencyRepository, FacilityRepository, MechanismRepository,
+    { provide: 'IAgencyRepository', useClass: AgencyRepository },
+    { provide: 'IFacilityRepository', useClass: FacilityRepository },
+    { provide: 'IMechanismRepository', useClass: MechanismRepository },
   ],
-  exports: [AgencyRepository, FacilityRepository, MechanismRepository],
+  exports: [
+    { provide: 'IAgencyRepository', useClass: AgencyRepository },
+    { provide: 'IFacilityRepository', useClass: FacilityRepository },
+    { provide: 'IMechanismRepository', useClass: MechanismRepository },
+  ],
 })
 export class PracticesInfrastructureModule {
 }

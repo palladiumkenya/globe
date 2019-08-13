@@ -1,12 +1,14 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
-import { AgencyRepository } from '../../../../infrastructure/practices/agency.repository';
 import { DeleteAgencyCommand } from '../delete-agency.command';
 import { AgencyDeletedEvent } from '../../events/agency-deleted.event';
+import { Inject } from '@nestjs/common';
+import { IAgencyRepository } from '../../../../domain/practices/agency-repository.interface';
 
 @CommandHandler(DeleteAgencyCommand)
 export class DeleteAgencyHandler implements ICommandHandler<DeleteAgencyCommand> {
   constructor(
-    private readonly agencyRepository: AgencyRepository,
+    @Inject('IAgencyRepository')
+    private readonly agencyRepository: IAgencyRepository,
     private readonly eventBus: EventBus) {
   }
 

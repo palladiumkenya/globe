@@ -8,8 +8,8 @@ import { LocationRepository } from './location.repository';
   imports: [
     MongooseModule.forFeature([{ name: County.name, schema: countySchema }]),
   ],
-  providers: [LocationRepository],
-  exports: [LocationRepository],
+  providers: [{ provide: 'ILocationRepository', useClass: LocationRepository }],
+  exports: [{ provide: 'ILocationRepository', useClass: LocationRepository }],
 })
 export class LocationsInfrastructureModule {
 }

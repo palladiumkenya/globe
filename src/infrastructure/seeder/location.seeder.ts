@@ -1,14 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { SeedReader } from './seed-reader';
 import { deserializeArray } from 'class-transformer';
 import { County } from '../../domain/locations/county';
-import { LocationRepository } from '../locations/location.repository';
+import { ILocationRepository } from '../../domain/locations/location-repository.interface';
 
 @Injectable()
 export class LocationSeeder {
 
   constructor(private readonly reader: SeedReader,
-              private readonly locationRepository: LocationRepository) {
+              @Inject('ILocationRepository')
+              private readonly locationRepository: ILocationRepository) {
   }
 
   async load(): Promise<County[]> {

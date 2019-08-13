@@ -1,13 +1,15 @@
 import { SaveAgencyCommand } from '../save-agency.command';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Agency } from '../../../../domain/practices/agency';
-import { AgencyRepository } from '../../../../infrastructure/practices/agency.repository';
 import { plainToClass } from 'class-transformer';
+import { Inject } from '@nestjs/common';
+import { IAgencyRepository } from '../../../../domain/practices/agency-repository.interface';
 
 @CommandHandler(SaveAgencyCommand)
 export class SaveAgencyHandler implements ICommandHandler<SaveAgencyCommand> {
   constructor(
-    private readonly agencyRepository: AgencyRepository,
+    @Inject('IAgencyRepository')
+    private readonly agencyRepository: IAgencyRepository,
     private readonly publisher: EventPublisher) {
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { SeedReader } from './seed-reader';
 import { deserializeArray } from 'class-transformer';
 import { AgencyRepository } from '../practices/agency.repository';
@@ -7,14 +7,20 @@ import { MechanismRepository } from '../practices/mechanism.repository';
 import { FacilityRepository } from '../practices/facility.repository';
 import { Mechanism } from '../../domain/practices/mechanism';
 import { Facility } from '../../domain/practices/facility';
+import { IMechanismRepository } from '../../domain/practices/mechanism-repository.interface';
+import { IAgencyRepository } from '../../domain/practices/agency-repository.interface';
+import { IFacilityRepository } from '../../domain/practices/facility-repository.interface';
 
 @Injectable()
 export class PracticeSeeder {
 
   constructor(private readonly reader: SeedReader,
-              private readonly agencyRepository: AgencyRepository,
-              private readonly mechanismRepository: MechanismRepository,
-              private readonly facilityRepository: FacilityRepository) {
+              @Inject('IAgencyRepository')
+              private readonly agencyRepository: IAgencyRepository,
+              @Inject('IMechanismRepository')
+              private readonly mechanismRepository: IMechanismRepository,
+              @Inject('IFacilityRepository')
+              private readonly facilityRepository: IFacilityRepository) {
   }
 
   async loadAgencies(): Promise<Agency[]> {

@@ -1,13 +1,15 @@
 import { SaveMechanismCommand } from '../save-mechanism.command';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Mechanism } from '../../../../domain/practices/mechanism';
-import { MechanismRepository } from '../../../../infrastructure/practices/mechanism.repository';
 import { plainToClass } from 'class-transformer';
+import { Inject } from '@nestjs/common';
+import { IMechanismRepository } from '../../../../domain/practices/mechanism-repository.interface';
 
 @CommandHandler(SaveMechanismCommand)
 export class SaveMechanismHandler implements ICommandHandler<SaveMechanismCommand> {
   constructor(
-    private readonly mechanismRepository: MechanismRepository,
+    @Inject('IMechanismRepository')
+    private readonly mechanismRepository: IMechanismRepository,
     private readonly publisher: EventPublisher) {
   }
 

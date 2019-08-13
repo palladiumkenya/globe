@@ -1,11 +1,13 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetLocationsQuery } from '../get-locations.query';
 import { CountyDto } from '../../../../domain/locations/dtos/county.dto';
-import { LocationRepository } from '../../../../infrastructure/locations/location.repository';
+import { Inject } from '@nestjs/common';
+import { ILocationRepository } from '../../../../domain/locations/location-repository.interface';
 
 @QueryHandler(GetLocationsQuery)
 export class GetLocationsHandler implements IQueryHandler<GetLocationsQuery, CountyDto[]> {
-  constructor(private readonly repository: LocationRepository) {
+  constructor(@Inject('ILocationRepository')
+              private readonly repository: ILocationRepository) {
   }
 
   async execute(query: GetLocationsQuery): Promise<CountyDto[]> {

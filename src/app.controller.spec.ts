@@ -1,15 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { countySchema } from './core/application/locations/schemas/county-schema';
-import { LocationsController } from './core/application/locations/controllers/locations.controller';
-import { County } from './core/domain/locations/county';
 import { TestDbHelper } from '../test/test-db.helper';
-import { LocationsModule } from './core/application/locations/locations.module';
-import { getTestCounties } from '../test/test.data';
-import { GetLocationsHandler } from './core/application/locations/queries/handlers/get-locations.handler';
-import { QueryBus } from '@nestjs/cqrs';
-import { GetLocationsQuery } from './core/application/locations/queries/get-locations.query';
 import { AppModule } from './app.module';
 
 describe('AppController', () => {

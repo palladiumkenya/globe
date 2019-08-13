@@ -1,5 +1,5 @@
 import { BaseRepository } from '../common/base.repository';
-import { County } from '../../core/domain/locations/county';
+import { County } from '../../domain/locations/county';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 

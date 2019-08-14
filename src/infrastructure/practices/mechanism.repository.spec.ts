@@ -2,8 +2,6 @@ import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestDbHelper } from '../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Mechanism } from '../../domain/practices/mechanism';
-import { mechanismSchema } from './schemas/mechanism.schema';
 import { getTestAgencyWithMechanisms } from '../../../test/test.data';
 import { PracticesInfrastructureModule } from './practices.infrastructure.module';
 import { IMechanismRepository } from '../../domain/practices/mechanism-repository.interface';

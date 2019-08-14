@@ -23,7 +23,7 @@ export class SaveMechanismHandler implements ICommandHandler<SaveMechanismComman
   }
 
   async createMechanism(command: SaveMechanismCommand): Promise<any> {
-    const newMechanism = new Mechanism(command.code, command.name, command.implementationName);
+    const newMechanism = new Mechanism(command.code, command.name, command.implementationName, command.agency);
     const mechanism = await this.mechanismRepository.create(newMechanism);
     this.publisher.mergeObjectContext(newMechanism).commit();
     return mechanism;
@@ -33,7 +33,7 @@ export class SaveMechanismHandler implements ICommandHandler<SaveMechanismComman
     const raw = await this.mechanismRepository.get(command._id);
     if (raw) {
       const mechanismToUpdate = plainToClass(Mechanism, raw);
-      mechanismToUpdate.changeDetails(command.code, command.name, command.implementationName);
+      mechanismToUpdate.changeDetails(command.code, command.name, command.implementationName, command.agency);
       const mechanism = await this.mechanismRepository.update(mechanismToUpdate);
       this.publisher.mergeObjectContext(mechanismToUpdate).commit();
       return mechanism;

@@ -41,19 +41,19 @@ describe('Save Mechanism Command Tests', () => {
   });
 
   beforeEach(async () => {
-    liveMechanism = new Mechanism('XXX', 'XXX-ZZX', 'IMP XXX');
+    liveMechanism = new Mechanism('XXX', 'XXX-ZZX', 'IMP XXX', null);
     await dbHelper.seedDb('mechanisms', [liveMechanism]);
   });
 
   it('should create Mechanism', async () => {
-    const command = new SaveMechanismCommand('Demo', 'Demo', 'Demo');
+    const command = new SaveMechanismCommand('Demo', 'Demo', 'Demo', null);
     const result = await commandBus.execute(command);
     expect(result).not.toBeNull();
     Logger.debug(result);
   });
 
   it('should modify Mechanism', async () => {
-    const command = new SaveMechanismCommand('NewTest', 'NewTest', 'New Imp', liveMechanism._id);
+    const command = new SaveMechanismCommand('NewTest', 'NewTest', 'New Imp', null, liveMechanism._id);
     const result = await commandBus.execute(command);
     expect(result.code).toBe('NewTest');
     expect(result.name).toBe('NewTest');

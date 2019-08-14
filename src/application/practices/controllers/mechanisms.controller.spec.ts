@@ -44,12 +44,12 @@ describe('Mechanisms Controller Tests', () => {
   });
 
   beforeEach(async () => {
-    liveMechanism = new Mechanism('XXX', 'XXX-ZZX', 'IMP');
+    liveMechanism = new Mechanism('XXX', 'XXX-ZZX', 'IMP', null);
     await dbHelper.seedDb('mechanisms', [liveMechanism]);
   });
 
   it('should create Mechanism', async () => {
-    const mechanismDto: MechanismDto = { code: 'Demo', name: 'Demo', implementationName: 'IMP' };
+    const mechanismDto: MechanismDto = { code: 'Demo', name: 'Demo', implementationName: 'IMP', agencyId: null };
     const result = await controller.createOrUpdateMechanism(mechanismDto);
     expect(result).not.toBeNull();
     Logger.debug(result);

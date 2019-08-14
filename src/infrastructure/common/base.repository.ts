@@ -4,7 +4,7 @@ import { IRepository } from '../../application/common/repository.interface';
 export abstract class BaseRepository<T> implements IRepository<T> {
 
   protected constructor(
-    private readonly model: Model<T>,
+    protected readonly model: Model<T>,
   ) {
   }
 

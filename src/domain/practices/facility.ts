@@ -11,7 +11,7 @@ export class Facility extends AggregateRoot {
     public code: number,
     public name: string,
     public county?: County,
-    public mechanism?: Mechanism) {
+    public mechanism?: string) {
     super();
     this._id = uuid.v1();
     this.code = code;
@@ -21,10 +21,11 @@ export class Facility extends AggregateRoot {
     this.apply(new FacilityCreatedEvent(this._id));
   }
 
-  changeDetails(code: number, name: string, county?: County, mechanism?: Mechanism) {
+  changeDetails(code: number, name: string, county?: County, mechanismId?: string) {
     this.code = code;
     this.name = name;
-    this.mechanism = mechanism;
+    this.mechanism = mechanismId;
     this.apply(new FacilityUpdatedEvent(this._id));
   }
+
 }

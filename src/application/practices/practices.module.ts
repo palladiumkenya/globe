@@ -22,10 +22,18 @@ import { GetFacilitiesHandler } from './queries/handlers/get-facilities.handler'
 import { FacilityCreatedEventHandler } from './events/handlers/facility-created.handler';
 import { FacilitiesController } from './controllers/facilities.controller';
 import { MechanismsController } from './controllers/mechanisms.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
     CqrsModule,
+    ClientsModule.register([{
+      name: 'GLOBE_SERVICE',
+      transport: Transport.REDIS,
+      options: {
+        url: 'redis://localhost:6379',
+      },
+    }]),
     PracticesInfrastructureModule,
   ],
   controllers: [AgenciesController, FacilitiesController, MechanismsController],

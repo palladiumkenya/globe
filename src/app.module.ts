@@ -12,7 +12,7 @@ const localUrl = 'mongodb://localhost/dwapiGlobe';
 @Module({
   imports: [
     CqrsModule,
-    MongooseModule.forRoot(cloudUrl, {
+    MongooseModule.forRoot(localUrl, {
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true,

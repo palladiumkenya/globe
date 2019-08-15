@@ -5,7 +5,6 @@ import { SaveFacilityCommand } from '../commands/save-facility.command';
 import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { GetFacilitiesQuery } from '../queries/get-facilities.query';
 import { DeleteFacilityCommand } from '../commands/delete-facility.command';
-import { MessagePattern } from '@nestjs/microservices';
 import { LoggingInterceptor } from '../../common/logging.interceptor';
 
 @UseInterceptors(LoggingInterceptor)
@@ -34,10 +33,5 @@ export class FacilitiesController {
     return this.commandBus.execute(
       new DeleteFacilityCommand(id),
     );
-  }
-
-  @MessagePattern({ cmd: 'facilities.index' })
-  public async rpcIndex() {
-    return await this.getFacilities();
   }
 }

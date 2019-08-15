@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors } from '@nestjs/common';
 import { FacilityDto } from '../../../domain/practices/dtos/facility.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { SaveFacilityCommand } from '../commands/save-facility.command';
 import { GetLocationsQuery } from '../../locations/queries/get-locations.query';
 import { GetFacilitiesQuery } from '../queries/get-facilities.query';
 import { DeleteFacilityCommand } from '../commands/delete-facility.command';
+import { MessagePattern } from '@nestjs/microservices';
+import { LoggingInterceptor } from '../../common/logging.interceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('facilities')
 export class FacilitiesController {
   constructor(private readonly commandBus: CommandBus,
@@ -33,5 +36,8 @@ export class FacilitiesController {
     );
   }
 
-
+  @MessagePattern({ cmd: 'facilities.index' })
+  public async rpcIndex() {
+    return await this.getFacilities();
+  }
 }

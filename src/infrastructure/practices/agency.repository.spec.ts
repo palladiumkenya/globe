@@ -10,7 +10,7 @@ describe('Agency Repository  Tests', () => {
   let module: TestingModule;
   let repository: IAgencyRepository;
   const dbHelper = new TestDbHelper();
-  const { agencies } = getTestPracticesCompleteData();
+  const { agencies, mechanisms } = getTestPracticesCompleteData();
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -22,6 +22,7 @@ describe('Agency Repository  Tests', () => {
 
     await dbHelper.initConnection();
     await dbHelper.seedDb('agencies', agencies);
+    await dbHelper.seedDb('mechanisms', mechanisms);
     repository = module.get<IAgencyRepository>('IAgencyRepository');
   });
 
@@ -34,9 +35,9 @@ describe('Agency Repository  Tests', () => {
     expect(repository).toBeDefined();
   });
 
-  it('should load Agencies', async () => {
-    const data = await repository.getAll();
-    expect(data.length).toBeGreaterThan(0);
-    data.map(c => Logger.log(c.name));
+  it('should load By Id', async () => {
+    const data = await repository.getById(agencies[0]._id);
+    expect(data).not.toBeNull();
+    Logger.log(data);
   });
 });

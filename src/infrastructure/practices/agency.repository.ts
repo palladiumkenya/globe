@@ -8,4 +8,12 @@ export class AgencyRepository extends BaseRepository<Agency>
   constructor(@InjectModel(Agency.name) model: Model<Agency>) {
     super(model);
   }
+
+  async getById(id: string): Promise<any> {
+    const result = await this.model
+      .findById(id)
+      .populate('mechanisms')
+      .exec();
+    return result;
+  }
 }

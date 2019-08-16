@@ -1,14 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LocationsController } from './locations.controller';
 import { QueryBus } from '@nestjs/cqrs';
-import { County } from '../../../domain/locations/county';
 import { TestDbHelper } from '../../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Logger } from '@nestjs/common';
+import { LocationsController } from './locations.controller';
+import { County } from '../../../domain/locations/county';
 import { LocationsModule } from '../locations.module';
 import { getTestCounties } from '../../../../test/test.data';
-import { GetLocationsHandler } from '../queries/handlers/get-locations.handler';
-import { GetLocationsQuery } from '../queries/get-locations.query';
-import { Logger } from '@nestjs/common';
+import { GetLocationsHandler, GetLocationsQuery } from '../queries';
 
 describe('Locations Controller Tests', () => {
   let module: TestingModule;
@@ -28,7 +27,9 @@ describe('Locations Controller Tests', () => {
     await dbHelper.initConnection();
     await dbHelper.seedDb('counties', testCounties);
 
-    const getLocationsHandler = module.get<GetLocationsHandler>(GetLocationsHandler);
+    const getLocationsHandler = module.get<GetLocationsHandler>(
+      GetLocationsHandler,
+    );
     const queryBus = module.get<QueryBus>(QueryBus);
     queryBus.bind(getLocationsHandler, GetLocationsQuery.name);
 
@@ -50,5 +51,4 @@ describe('Locations Controller Tests', () => {
     expect(result.length).toBeGreaterThan(0);
     result.forEach(c => Logger.debug(`${c}`));
   });
-
 });

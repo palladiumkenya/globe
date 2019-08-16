@@ -1,8 +1,10 @@
 import * as uuid from 'uuid';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { Mechanism } from './mechanism';
-import { County } from '../locations/county';
-import { FacilityCreatedEvent, FacilityUpdatedEvent } from '../../application/practices/events';
+import {
+  FacilityCreatedEvent,
+  FacilityUpdatedEvent,
+} from '../../application/practices/events';
+import { County } from '../locations';
 
 export class Facility extends AggregateRoot {
   _id: string;
@@ -10,8 +12,9 @@ export class Facility extends AggregateRoot {
   constructor(
     public code: number,
     public name: string,
-    public county?: County,
-    public mechanism?: string) {
+    public county?: string,
+    public mechanism?: string,
+  ) {
     super();
     this._id = uuid.v1();
     this.code = code;
@@ -21,11 +24,15 @@ export class Facility extends AggregateRoot {
     this.apply(new FacilityCreatedEvent(this._id));
   }
 
-  changeDetails(code: number, name: string, county?: County, mechanismId?: string) {
+  changeDetails(
+    code: number,
+    name: string,
+    county?: string,
+    mechanismId?: string,
+  ) {
     this.code = code;
     this.name = name;
     this.mechanism = mechanismId;
     this.apply(new FacilityUpdatedEvent(this._id));
   }
-
 }

@@ -1,7 +1,8 @@
 import {
   CallHandler,
   ExecutionContext,
-  Injectable, Logger,
+  Injectable,
+  Logger,
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -19,4 +20,3 @@ export class LoggingInterceptor implements NestInterceptor {
       .pipe(tap(() => Logger.log(`After... ${Date.now() - now}ms`)));
   }
 }
-

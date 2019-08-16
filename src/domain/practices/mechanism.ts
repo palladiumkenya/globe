@@ -1,13 +1,12 @@
-import { Agency } from './agency';
-import { Facility } from './facility';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { AgencyCreatedEvent } from '../../application/practices/events/agency-created.event';
-import { MechanismCreatedEvent } from '../../application/practices/events/mechanism-created.event';
-import { MechanismUpdatedEvent } from '../../application/practices/events/mechanism-updated.event';
 import * as uuid from 'uuid';
+import {
+  MechanismCreatedEvent,
+  MechanismUpdatedEvent,
+} from '../../application/practices/events';
+import { Facility } from './facility';
 
 export class Mechanism extends AggregateRoot {
-
   _id: string;
   facilities: any[] = [];
 
@@ -15,7 +14,8 @@ export class Mechanism extends AggregateRoot {
     public code: string,
     public name: string,
     public implementationName: string,
-    public agency?: string) {
+    public agency?: string,
+  ) {
     super();
     this._id = uuid.v1();
     this.code = code;
@@ -24,7 +24,12 @@ export class Mechanism extends AggregateRoot {
     this.apply(new MechanismCreatedEvent(this._id));
   }
 
-  changeDetails(code: string, name: string, implementationName: string, agency?: string) {
+  changeDetails(
+    code: string,
+    name: string,
+    implementationName: string,
+    agency?: string,
+  ) {
     this.code = code;
     this.name = name;
     this.implementationName = implementationName;

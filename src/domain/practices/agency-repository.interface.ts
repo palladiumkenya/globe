@@ -1,5 +1,4 @@
-import { Agency } from '../../domain/practices/agency';
-import { IRepository } from '../../application/common/repository.interface';
+import { Agency } from './agency';
+import { IRepository } from '../../application/common';
 
-export interface IAgencyRepository extends IRepository<Agency> {
-}
+export interface IAgencyRepository extends IRepository<Agency> {}

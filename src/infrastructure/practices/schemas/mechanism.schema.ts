@@ -1,7 +1,5 @@
 import * as mongoose from 'mongoose';
-import { Schema } from 'mongoose';
-import { Agency } from '../../../domain/practices/agency';
-import { Facility } from '../../../domain/practices/facility';
+import { Agency, Facility } from '../../../domain/practices';
 
 export const mechanismSchema = new mongoose.Schema({
   _id: String,

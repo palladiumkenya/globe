@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestDbHelper } from '../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { getTestAgencyWithMechanisms } from '../../../test/test.data';
+import { getTestPracticesCompleteData } from '../../../test/test.data';
 import { PracticesInfrastructureModule } from './practices.infrastructure.module';
 import { IMechanismRepository } from '../../domain/practices/mechanism-repository.interface';
 
@@ -10,24 +10,26 @@ describe('Mechanism Repository  Tests', () => {
   let module: TestingModule;
   let repository: IMechanismRepository;
   const dbHelper = new TestDbHelper();
-  const agenciesWithMechanisms = getTestAgencyWithMechanisms();
+  const {
+    counties,
+    agencies,
+    facilities,
+    mechanisms,
+  } = getTestPracticesCompleteData();
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
-        PracticesInfrastructureModule,
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
+        PracticesInfrastructureModule,
       ],
     }).compile();
 
     await dbHelper.initConnection();
-
-    for (const agency of agenciesWithMechanisms) {
-      const mechanisms = agency.mechanisms;
-      agency.mechanisms = mechanisms.map(({ _id }) => _id);
-      await dbHelper.seedDb('agencies', [agency]);
-      await dbHelper.seedDb('mechanisms', mechanisms);
-    }
+    await dbHelper.seedDb('counties', counties);
+    await dbHelper.seedDb('agencies', agencies);
+    await dbHelper.seedDb('mechanisms', mechanisms);
+    await dbHelper.seedDb('facilities', facilities);
     repository = module.get<IMechanismRepository>(`IMechanismRepository`);
   });
 
@@ -40,11 +42,22 @@ describe('Mechanism Repository  Tests', () => {
     expect(repository).toBeDefined();
   });
 
-  it('should load mechanisms', async () => {
-    const mechanisms = await repository.getMechanisms();
-    expect(mechanisms.length).toBeGreaterThan(0);
-    const { agency } = mechanisms[0];
-    expect(agency).not.toBeNull();
-    mechanisms.forEach(m => Logger.debug(`${m.name} - ${m.agency.name}`));
+  it('should load by Id', async () => {
+    const fac = await repository.getById(mechanisms[0]._id);
+    expect(fac.agency.name).not.toBeNull();
+    expect(fac.facilities.length).toBeGreaterThan(0);
+    Logger.debug(fac);
+  });
+
+  it('should load Mechanisms', async () => {
+    const data = await repository.getMechanisms();
+    expect(data.length).toBeGreaterThan(0);
+    data.map(f => Logger.debug(f));
+  });
+
+  it('should load Mechanisms by Agency', async () => {
+    const data = await repository.getMechanisms(agencies[0]._id);
+    expect(data.length).toBeGreaterThan(0);
+    data.map(f => Logger.debug(f));
   });
 });

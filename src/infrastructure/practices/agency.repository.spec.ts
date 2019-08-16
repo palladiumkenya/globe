@@ -1,27 +1,28 @@
-import {  Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestDbHelper } from '../../../test/test-db.helper';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AgencyRepository } from './agency.repository';
-import { Agency } from '../../domain/practices/agency';
-import { agencySchema } from './schemas/agency.schema';
+import { IAgencyRepository } from '../../domain/practices';
+import { PracticesInfrastructureModule } from './practices.infrastructure.module';
+import { Logger } from '@nestjs/common';
+import { getTestPracticesCompleteData } from '../../../test/test.data';
 
 describe('Agency Repository  Tests', () => {
   let module: TestingModule;
-  let repository: AgencyRepository;
+  let repository: IAgencyRepository;
   const dbHelper = new TestDbHelper();
+  const { agencies } = getTestPracticesCompleteData();
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(dbHelper.url, dbHelper.options),
-        MongooseModule.forFeature([{ name: Agency.name, schema: agencySchema }]),
+        PracticesInfrastructureModule,
       ],
-      providers: [AgencyRepository],
     }).compile();
 
     await dbHelper.initConnection();
-    repository = module.get<AgencyRepository>(AgencyRepository);
+    await dbHelper.seedDb('agencies', agencies);
+    repository = module.get<IAgencyRepository>('IAgencyRepository');
   });
 
   afterAll(async () => {
@@ -31,5 +32,11 @@ describe('Agency Repository  Tests', () => {
 
   it('should be defined', async () => {
     expect(repository).toBeDefined();
+  });
+
+  it('should load Agencies', async () => {
+    const data = await repository.getAll();
+    expect(data.length).toBeGreaterThan(0);
+    data.map(c => Logger.log(c.name));
   });
 });

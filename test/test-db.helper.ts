@@ -5,7 +5,9 @@ export class TestDbHelper {
   const;
   useLocal = false;
   url = `mongodb+srv://livetest:maun@cluster0-v6fcj.mongodb.net/dwapiGlobeTest?retryWrites=true&w=majority`;
-  localUrl = `mongodb://localhost/dwapiGlobeTest`;
+  localUrl = `mongodb://192.168.100.3/dwapiGlobeTest`;
+  localQueue = 'amqp://192.168.100.3:5672/spot';
+  cloudQueue = this.localQueue;
 
   options = {
     useNewUrlParser: true,
@@ -47,7 +49,9 @@ export class TestDbHelper {
 
   async clearDb() {
     Logger.debug(`clearing...`);
-    const collections = await mongoose.connection.db.listCollections().toArray();
+    const collections = await mongoose.connection.db
+      .listCollections()
+      .toArray();
     return Promise.all(
       collections
         .map(({ name }) => name)

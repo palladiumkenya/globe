@@ -1,7 +1,5 @@
-import { Agency } from '../src/domain/practices/agency';
-import { County } from '../src/domain/locations/county';
-import { Facility } from '../src/domain/practices/facility';
-import { Mechanism } from '../src/domain/practices/mechanism';
+import { Agency, Facility, Mechanism } from '../src/domain/practices';
+import { County } from '../src/domain/locations';
 
 export const getTestCounties = (count = 2) => {
   const data: County[] = [];
@@ -62,4 +60,78 @@ export const getTestMechanismWithFacilites = (mcount = 1, count = 2) => {
   });
 
   return mechanisms;
+};
+
+export const getTestPracticesCompleteData = () => {
+  const counties: County[] = JSON.parse(
+    '[\n' +
+      '  {\n' +
+      '    "_id": "9eb15a92-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": 16,\n' +
+      '    "name": "MACHAKOS"\n' +
+      '  },{\n' +
+      '    "_id": "9eb175a4-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": 34,\n' +
+      '    "name": "KAJIADO"\n' +
+      '  }\n' +
+      ']',
+  );
+  const agencies: Agency[] = JSON.parse(
+    '[\n' +
+      '  {\n' +
+      '    "_id": "9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "name": "CDC",\n' +
+      '    "display": "CDC",\n' +
+      '    "mechanisms": ["9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4"]\n' +
+      '  },\n' +
+      '  {\n' +
+      '    "_id": "9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "name": "USAID",\n' +
+      '    "display": "USAID",\n' +
+      '    "mechanisms": ["9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4"]\n' +
+      '  }\n' +
+      ']',
+  );
+
+  const mechanisms: Mechanism[] = JSON.parse(
+    '[' +
+      '{\n' +
+      '    "_id": "9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": "18504",\n' +
+      '    "name": "UMB Timiza",\n' +
+      '    "implementationName": "UMB Timiza",\n' +
+      '    "agency": "9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "facilities": ["9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4"]\n' +
+      '  },\n' +
+      '  {\n' +
+      '    "_id": "9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": "13588",\n' +
+      '    "name": "Afya Ziwani",\n' +
+      '    "implementationName": "Afya Ziwani",\n' +
+      '    "agency": "9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "facilities": ["9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4"]\n' +
+      '  }' +
+      ']',
+  );
+
+  const facilities: Facility[] = JSON.parse(
+    '[\n' +
+      '  {\n' +
+      '    "_id": "9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": 12618,\n' +
+      '    "name": "Mwala Hospital",\n' +
+      '    "county": "9eb15a92-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "mechanism": "9eb13e4a-bb7b-11e9-9cb5-2a2ae2dbcce4"\n' +
+      '  },\n' +
+      '  {\n' +
+      '    "_id": "9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "code": 14950,\n' +
+      '    "name": "Kitengela Health Centre",\n' +
+      '    "county": "9eb175a4-bb7b-11e9-9cb5-2a2ae2dbcce4",\n' +
+      '    "mechanism": "9eb140ca-bb7b-11e9-9cb5-2a2ae2dbcce4"\n' +
+      '  }\n' +
+      ']\n',
+  );
+
+  return { counties, agencies, mechanisms, facilities };
 };

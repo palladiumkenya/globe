@@ -10,9 +10,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     CqrsModule,
     ClientsModule.register([{
       name: 'GLOBE_SERVICE',
-      transport: Transport.REDIS,
+      transport: Transport.RMQ,
       options: {
-        url: 'redis://localhost:6379',
+        urls: [`amqp://localhost:5672`],
+        queue: 'cats_queue',
+        queueOptions: { durable: true },
       },
     }]),
     LocationsInfrastructureModule,

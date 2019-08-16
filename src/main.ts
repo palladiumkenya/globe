@@ -5,16 +5,18 @@ import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const microservice = app.connectMicroservice({
-    transport: Transport.REDIS,
+  /*const microservice = app.connectMicroservice({
+    transport: Transport.RMQ,
     options: {
-      url: 'redis://localhost:6379',
+      urls: [`amqp://localhost:5672`],
+      queue: 'cats_queue',
+      queueOptions: { durable: true },
     },
-  });
+  });*/
   app.enableCors();
   const seeder = app.get(SeederModule);
   await seeder.seedData();
-  await app.startAllMicroservicesAsync();
+ // await app.startAllMicroservicesAsync();
   await app.listen(3001);
 }
 

@@ -5,20 +5,26 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PracticesModule } from './application/practices/practices.module';
 import { SeederModule } from './infrastructure/seeder/seeder.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { routes } from './routes';
+import { RouterModule } from 'nest-router';
 
 const cloudUrl = `mongodb+srv://livetest:maun@cluster0-v6fcj.mongodb.net/dwapiGlobe?retryWrites=true&w=majority`;
 const localUrl = 'mongodb://localhost/dwapiGlobe';
 
 @Module({
   imports: [
+    RouterModule.forRoutes(routes),
     CqrsModule,
     MongooseModule.forRoot(cloudUrl, {
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true,
-    }), LocationsModule, PracticesModule, SeederModule],
+    }),
+    LocationsModule,
+    PracticesModule,
+    SeederModule,
+  ],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetLocationsQuery } from '../queries';
 
-@Controller('locations')
+@Controller()
 export class LocationsController {
   constructor(private readonly queryBus: QueryBus) {}
 

@@ -1,22 +1,34 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { TestDbHelper } from '../test/test-db.helper';
+import { AppModule } from './app.module';
 
 describe('AppController', () => {
+
+  let module: TestingModule;
   let appController: AppController;
+  const dbHelper = new TestDbHelper();
 
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
-      providers: [AppService],
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
+      imports: [
+        MongooseModule.forRoot(dbHelper.url, dbHelper.options),
+        AppModule,
+      ],
     }).compile();
+    await dbHelper.initConnection();
+    appController = module.get<AppController>(AppController);
+  });
 
-    appController = app.get<AppController>(AppController);
+  afterAll(async () => {
+    await dbHelper.clearDb();
+    await dbHelper.closeConnection();
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "dwapi Globe"', () => {
+      expect(appController.getAppName()).toBe('dwapi Globe');
     });
   });
 });
